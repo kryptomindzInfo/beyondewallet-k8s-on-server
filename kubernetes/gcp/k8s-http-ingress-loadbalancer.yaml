@@ -1,0 +1,21 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: siliconvalley-ingress
+spec:
+  rules:
+  - host: beyondewallet.tk
+    http:
+      paths:
+      - path: /api/*
+        backend:
+          serviceName: beyondewallet-middleware-nodeport
+          servicePort: 3001
+      - path: /uploads/*
+        backend:
+          serviceName: beyondewallet-middleware-nodeport
+          servicePort: 3001
+      - path: /ipfs/*
+        backend:
+          serviceName: beyondewallet-app-nodeport
+          servicePort: 8080

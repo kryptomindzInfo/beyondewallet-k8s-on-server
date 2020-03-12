@@ -1,0 +1,50 @@
+# Defines four organizations
+#  - Orderer organization
+#  - SiliconValley
+#  - Budget
+#  - Expo
+##### Orderer for siliconvalley
+OrdererOrgs:
+  - Name: Orderer
+    Domain: siliconvalley.com
+    # EnableNodeOUs: true
+    Specs:
+      - Hostname: orderer
+        SANS:
+          - "siliconvalley-orderer-clusterip"
+      - Hostname: orderer2
+        SANS:
+          - "siliconvalley-orderer2-clusterip"
+      - Hostname: orderer3
+        SANS:
+          - "siliconvalley-orderer3-clusterip"
+      - Hostname: orderer4
+        SANS:
+          - "siliconvalley-orderer4-clusterip"
+      - Hostname: orderer5
+        SANS:
+          - "siliconvalley-orderer5-clusterip"
+      
+#### Peers for siliconvalley
+PeerOrgs:
+  # Peer configuration for SiliconValley
+  - Name: SiliconValley
+    Domain: siliconvalley.com
+    # EnableNodeOUs: true
+    Specs:
+      - Hostname: peer1.siliconvalley.com
+        SANS:
+          - "siliconvalley-peer1-clusterip"
+          - "127.0.0.1"
+          - "0.0.0.0"
+          - "localhost"
+        CommonName: peer1.siliconvalley.com
+      - Hostname: peer2.siliconvalley.com
+        SANS:
+          - "siliconvalley-peer2-clusterip"
+          - "127.0.0.1"
+          - "0.0.0.0"
+          - "localhost"
+        CommonName: peer2.siliconvalley.com
+    Users:
+      Count: 1

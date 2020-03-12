@@ -1,0 +1,51 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: test-ingress
+spec:
+#  backend:
+#    serviceName: default-http-backend
+#    servicePort: 80
+  rules:
+  - host: 91d90ac373dc.sn.mynetname.net
+    http:
+      paths:
+        - path: /
+          backend:
+            serviceName: beyondewallet-frontend-nodeport
+            servicePort: 80
+  - host: 91d90ac373dc.sn.mynetname.net
+    http:
+      paths:
+        - path: /
+          backend:
+            serviceName: beyondewallet-backend-nodeport
+            servicePort: 3001
+  - host: 91d90ac373dc.sn.mynetname.net
+    http:
+      paths:
+        - path: /
+          backend:
+            serviceName: beyondewallet-app-nodeport
+            servicePort: 8080
+  - host: 91d90ac373dc.sn.mynetname.net
+    http:
+      paths:
+        - path: /
+          backend:
+            serviceName: grafana-nodeport
+            servicePort: 3000
+  - host: 91d90ac373dc.sn.mynetname.net
+    http:
+      paths:
+        - path: /
+          backend:
+            serviceName: explorer-nodeport
+            servicePort: 8080
+  - host: 91d90ac373dc.sn.mynetname.net
+    http:
+      paths:
+        - path: /
+          backend:
+            serviceName: prometheus-nodeport
+            servicePort: 9090

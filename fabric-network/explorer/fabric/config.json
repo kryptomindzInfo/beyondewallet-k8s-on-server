@@ -1,0 +1,9 @@
+{
+	"network-configs": {
+		"ewallet-network": {
+			"name": "ewallet-network",
+			"profile": "./connection-profile/ewallet-network.json"
+		}
+	},
+	"license": "Apache-2.0"
+}

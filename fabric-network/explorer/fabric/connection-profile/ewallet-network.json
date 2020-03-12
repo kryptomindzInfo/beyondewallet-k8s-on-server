@@ -1,0 +1,80 @@
+{
+    "name": "k8s-network",
+    "version": "1.0.0",
+    "license": "Apache-2.0",
+    "client": {
+        "tlsEnable": true,
+        "adminUser": "admin",
+        "adminPassword": "adminpw",
+        "enableAuthentication": false,
+        "organization": "SiliconValley",
+        "connection": {
+            "timeout": {
+                "peer": {
+                    "endorser": "300"
+                },
+                "orderer": "300"
+            }
+        }
+    },
+    "channels": {
+        "ewalletchannel": {
+            "orderers": ["orderer.siliconvalley.com"],
+			"peers": {
+				"peer1.siliconvalley.com": {}
+			},
+            "connection": {
+                "timeout": {
+                    "peer": {
+                        "endorser": "6000",
+                        "eventHub": "6000",
+                        "eventReg": "6000"
+                    }
+                }
+            }
+        }
+    },
+    "organizations": {
+        "SiliconValley": {
+            "mspid": "SiliconValleyMSP",
+            "fullpath": true,
+            "adminPrivateKey": {
+                "path": "/opt/crypto/peerOrganizations/siliconvalley.com/users/Admin@siliconvalley.com/msp/keystore/43be4e8ac56de9e75a2e87569ee28129e3d7ece4a60921446d2eb14fad219f2b_sk"
+            },
+            "signedCert": {
+                "path": "/opt/crypto/peerOrganizations/siliconvalley.com/users/Admin@siliconvalley.com/msp/signcerts/Admin@siliconvalley.com-cert.pem"
+            },
+            "certificateAuthorities": [
+                "ca.siliconvalley.com"
+            ]
+        }
+    },
+    "peers": {
+        "peer1.siliconvalley.com": {
+            "url": "grpcs://siliconvalley-peer1-clusterip:30751",
+            "tlsCACerts": {
+                "path": "/opt/crypto/peerOrganizations/siliconvalley.com/tlsca/tlsca.siliconvalley.com-cert.pem"
+            },
+            "grpcOptions": {
+                "ssl-target-name-override": "siliconvalley-peer1-clusterip"
+            }
+        }
+    },
+    "orderers": {
+        "orderer.siliconvalley.com": {
+            "url": "grpcs://siliconvalley-orderer-clusterip:30750",
+            "grpcOptions": {
+                "ssl-target-name-override": "siliconvalley-orderer-clusterip"
+            },
+            "tlsCACerts": {
+                "path": "/opt/crypto/ordererOrganizations/siliconvalley.com/tlsca/tlsca.siliconvalley.com-cert.pem"
+            }
+        }
+    },
+    "certificateAuthorities": {
+        "ca.siliconvalley.com": {
+            "url": "http://siliconvalley-ca-clusterip:7054",
+            "caName": "ca.siliconvalley.com"
+        }
+    }
+}

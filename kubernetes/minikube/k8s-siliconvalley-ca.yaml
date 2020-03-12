@@ -1,0 +1,91 @@
+# YAML for launching the orderer
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: siliconvalley-ca
+  labels:
+    app: siliconvalley-ca
+spec:
+  serviceName: siliconvalley-ca
+  # Single instance of the CA Pod is needed
+  replicas: 1
+  selector:
+    matchLabels:
+      app: siliconvalley-ca
+  template:
+    metadata:
+      labels:
+        app: siliconvalley-ca
+    spec:
+      containers:
+      - name: siliconvalley-ca-k8s
+
+        # Image used
+        image: beyondewallet/k8s-hlf-ca:1.0
+        # Uncomment the following during development/testing of the image
+        imagePullPolicy: Always
+        env:
+          - name: FABRIC_CA_HOME
+            value: /var/hyperledger/fabric-ca-server
+          - name: FABRIC_CA_SERVER_CA_NAME
+            value: ca.siliconvalley.com
+          - name: FABRIC_CA_SERVER_CA_CERTFILE
+            value: /var/hyperledger/fabric-ca-server-config/ca.siliconvalley.com-cert.pem
+          - name: FABRIC_CA_SERVER_CA_KEYFILE
+            # BELOW LINE HAS to be at LINE NUMBER #37
+            value: /var/hyperledger/fabric-ca-server-config/6fa48f281c5a2a8c7cecbf0928a39b8cca4f2af16dea399c046866ebca832c42_sk
+        volumeMounts:
+        # This is pointing to the PVC
+        - name: ca-ledger
+          mountPath: /var/ledger
+        ports:
+        - containerPort: 7054
+  
+  volumeClaimTemplates:
+  - metadata: 
+      name: ca-ledger
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: general
+      resources:
+        requests:
+          storage: 1Gi
+
+---
+# Expose the port 7054 as ClusterIP
+apiVersion: v1
+kind: Service
+metadata:
+  name: siliconvalley-ca-clusterip
+spec:
+  # This defines which pods are going to be represented by this Service
+  # The service becomes a network endpoint for either other services
+  # or maybe external users to connect to (eg browser)
+  selector:
+    app: siliconvalley-ca
+  ports:
+    - name: siliconvalley-ca-clusterip
+      port: 7054
+  type: ClusterIP
+
+---
+# Expose the port 30750 as node port - NEEDED if you
+# are interested in connecting to the Pods from the Host
+# machine - keep in mind you would need the IP for the node
+# port service
+apiVersion: v1
+kind: Service
+metadata:
+  name: siliconvalley-ca-nodeport
+spec:
+  # This defines which pods are going to be represented by this Service
+  # The service becomes a network endpoint for either other services
+  # or maybe external users to connect to (eg browser)
+  selector:
+    app: siliconvalley-ca
+  ports:
+    - name: siliconvalley-ca-nodeport
+      port: 7154
+      targetPort: 7054
+      nodePort: 30754
+  type: NodePort

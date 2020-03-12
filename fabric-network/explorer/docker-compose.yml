@@ -1,0 +1,74 @@
+
+# SPDX-License-Identifier: Apache-2.0
+version: '3'
+
+volumes:
+  pgdata:
+  walletstore:
+  grafana-storage:
+  prometheus-storage:
+
+networks:
+  basic:
+
+services:
+
+  explorerdb:
+    image: hyperledger/explorer-db:latest
+    container_name: explorerdb.ewallet.com
+    hostname: explorerdb.ewallet.com
+    environment:
+      - DATABASE_DATABASE=fabricexplorer
+      - DATABASE_USERNAME=hppoc
+      - DATABASE_PASSWORD=password
+    volumes:
+      - ./db/createdb.sh:/docker-entrypoint-initdb.d/createdb.sh
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - basic
+
+  explorer:
+    image: hyperledger/explorer:latest
+    container_name: explorer.ewallet.com
+    hostname: explorer.ewallet.com
+    environment:
+      - DATABASE_HOST=explorerdb.ewallet.com
+      - DATABASE_USERNAME=hppoc
+      - DATABASE_PASSWD=password
+      - DISCOVERY_AS_LOCALHOST=false
+    volumes:
+      - ./fabric/config.json:/opt/explorer/app/platform/fabric/config.json
+      - ./fabric/connection-profile:/opt/explorer/app/platform/fabric/connection-profile
+      - ./crypto-config:/tmp/crypto
+      - ./swagger.json:/opt/explorer/swagger.json
+      - walletstore:/opt/wallet
+    command: sh -c "sleep 16&& node /opt/explorer/main.js && tail -f /dev/null"
+    ports:
+      - 9000:8080
+    depends_on:
+      - explorerdb
+    networks:
+      - basic
+
+  proms:
+    container_name: proms
+    image: prom/prometheus:latest
+    volumes:
+      - ./fabric/artifacts/operations/balance-transfer/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus-storage:/prometheus
+    ports:
+      - '9090:9090'
+    networks:
+      - basic
+
+  grafana:
+    container_name: grafana
+    image: grafana/grafana:latest
+    volumes:
+      - ./fabric/artifacts/operations/balance-transfer/balance-transfer-grafana-dashboard.json:/var/lib/grafana/dashboards/mydashboard.json
+      - ./fabric/artifacts/operations/grafana_conf/provisioning:/etc/grafana/provisioning
+      - grafana-storage:/var/lib/grafana
+    ports:
+      - '3000:3000' 
+    networks:
+      - basic

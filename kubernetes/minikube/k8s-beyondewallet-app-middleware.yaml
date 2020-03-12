@@ -1,0 +1,100 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: beyondewallet-backend
+  labels:
+    app: beyondewallet-backend
+spec:
+  serviceName: beyondewallet-backend
+  replicas: 1
+  selector:
+    matchLabels:
+      app: beyondewallet-backend
+  template:
+    metadata:
+      labels: # labels to select/identify the deployment
+        app: beyondewallet-backend  
+    spec:     # pod spec                  
+      containers: 
+      - name: beyondewallet-backend
+        image: beyondewallet/app-middleware:1.0 # image we pushed
+        imagePullPolicy: Always
+        # readinessProbe:
+        #   httpGet:
+        #     path: 
+        #     port: 3001
+        #   periodSeconds: 1
+        #   timeoutSeconds: 1
+        #   successThreshold: 1
+        #   failureThreshold: 10
+        ports:
+        - containerPort: 3001
+        volumeMounts:
+        - name: beyondewallet-backend-pvc
+          mountPath: /var/app
+      - name: beyondewallet-backend-db
+        image: mongo # image we pushed
+        # imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 27017
+        volumeMounts:
+        - name: beyondewallet-backend-pvc
+          mountPath: /var/db
+  volumeClaimTemplates:
+  - metadata: 
+      name: beyondewallet-backend-pvc
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: general
+      resources:
+        requests:
+          storage: 1Gi
+
+---
+# Expose the port 30751 as node port -  NEEDED if you
+# are interested in connecting to the Pods from the Host
+# machine - keep in mind you would need the IP for the node
+# port service
+apiVersion: v1
+kind: Service
+metadata:
+  name: beyondewallet-backend-clusterip
+
+spec:
+  # This defines which pods are going to be represented by this Service
+  # The service becomes a network endpoint for either other services
+  # or maybe external users to connect to (eg browser)
+  selector:
+    app: beyondewallet-backend
+
+  ports:
+    - name: beyondewallet-backend-clusterip
+      port: 3001
+    # - name: beyondewallet-backend-clusterip
+    #   port: 27017
+  type: ClusterIP
+
+---
+# Expose the port 30751 as node port -  NEEDED if you
+# are interested in connecting to the Pods from the Host
+# machine - keep in mind you would need the IP for the node
+# port service
+apiVersion: v1
+kind: Service
+metadata:
+  name: beyondewallet-backend-nodeport
+
+spec:
+  # This defines which pods are going to be represented by this Service
+  # The service becomes a network endpoint for either other services
+  # or maybe external users to connect to (eg browser)
+  selector:
+    app: beyondewallet-backend
+
+  ports:
+    - name: beyondewallet-backend-nodeport
+      port: 3001
+      targetPort: 3001
+      nodePort: 30301
+
+  type: NodePort
