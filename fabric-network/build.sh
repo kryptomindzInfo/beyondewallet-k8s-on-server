@@ -10,5 +10,5 @@ docker build -t beyondewallet/k8s-hlf-siliconvalley-peer2:1.0 . -f docker/peer2/
 docker build --no-cache -t beyondewallet/explorerdb:1.0 . -f docker/explorerdb/Dockerfile
 docker build --no-cache -t beyondewallet/explorer:1.0 . -f docker/explorer/Dockerfile
 
-docker build --no-cache -t siliconvalleysenegal/prometheus:1.0 . -f images/prometheus/Dockerfile
-docker build --no-cache -t siliconvalleysenegal/grafana:1.0 . -f images/grafana/Dockerfile
+docker build --no-cache -t beyondewallet/prometheus:1.0 . -f docker/prometheus/Dockerfile
+docker build --no-cache -t beyondewallet/grafana:1.0 . -f docker/grafana/Dockerfile

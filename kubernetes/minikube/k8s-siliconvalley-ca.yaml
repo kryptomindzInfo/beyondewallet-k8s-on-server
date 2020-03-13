@@ -22,6 +22,7 @@ spec:
 
         # Image used
         image: beyondewallet/k8s-hlf-ca:1.0
+        # Keep this line as fabric_ca_server_ca_keyfile's value must be at line no. 37
         # Uncomment the following during development/testing of the image
         imagePullPolicy: Always
         env:
