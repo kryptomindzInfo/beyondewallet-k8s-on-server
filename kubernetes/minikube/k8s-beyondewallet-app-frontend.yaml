@@ -20,7 +20,7 @@ spec:
         image: beyondewallet/app-frontend:1.0 # image we pushed
         imagePullPolicy: Always
         ports:
-        - containerPort: 80
+        - containerPort: 4000
         volumeMounts:
         - name: beyondewallet-frontend-pvc
           mountPath: /var/app
@@ -32,7 +32,7 @@ spec:
       storageClassName: general
       resources:
         requests:
-          storage: 1Gi
+          storage: 2Gi
 
 ---
 # Expose the port 30751 as node port -  NEEDED if you
@@ -53,7 +53,7 @@ spec:
 
   ports:
     - name: beyondewallet-frontend-clusterip
-      port: 80
+      port: 4000
 
   type: ClusterIP
 
@@ -77,7 +77,7 @@ spec:
   ports:
     - name: beyondewallet-frontend-nodeport
       port: 80
-      targetPort: 80
+      targetPort: 4000
       nodePort: 31080
 
   type: NodePort

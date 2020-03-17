@@ -17,7 +17,7 @@ spec:
     spec:     # pod spec                  
       containers: 
       - name: beyondewallet-app
-        image: beyondewallet/k8s-beyondewallet-blockchain:1.0 # image we pushed
+        image: beyondewallet/app-fabric:1.0 # image we pushed
         command: ['sh','-c','node enrollAdmin.js && node registerUser.js && node server.js']
         imagePullPolicy: Always
         ports:
