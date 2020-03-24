@@ -76,7 +76,7 @@ spec:
 
   ports:
     - name: beyondewallet-frontend-nodeport
-      port: 80
+      port: 4000
       targetPort: 4000
       nodePort: 31080
 
