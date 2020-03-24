@@ -13,3 +13,6 @@
 [submodule "app/middleware"]
 	path = app/middleware
 	url = https://github.com/beyondewallet/backend-user-services.git
+[submodule "app/customer-frontend"]
+	path = app/customer-frontend
+	url = https://github.com/beyondewallet/customer-frontend.git
