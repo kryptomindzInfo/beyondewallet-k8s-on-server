@@ -32,14 +32,6 @@ spec:
         volumeMounts:
         - name: beyondewallet-backend-pvc
           mountPath: /var/app
-      - name: beyondewallet-backend-db
-        image: mongo # image we pushed
-        # imagePullPolicy: IfNotPresent
-        ports:
-        - containerPort: 27017
-        volumeMounts:
-        - name: beyondewallet-backend-pvc
-          mountPath: /var/db
   volumeClaimTemplates:
   - metadata: 
       name: beyondewallet-backend-pvc
