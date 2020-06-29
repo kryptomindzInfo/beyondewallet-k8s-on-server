@@ -77,7 +77,7 @@ spec:
   ports:
     - name: beyondewallet-cust-frontend-nodeport
       port: 5001
-      targetPort: 4000
+      targetPort: 5001
       nodePort: 31501
 
   type: NodePort
