@@ -10,7 +10,7 @@ kubectl exec -it siliconvalley-peer1-0 -c siliconvalley-peer1 -- /bin/bash -li -
 echo ${CC_CHANNEL_ID} && \
 peer channel create -c $CC_CHANNEL_ID -f /var/hyperledger/config/${CC_CHANNEL_ID}.tx --outputBlock /var/hyperledger/config/${CC_CHANNEL_ID}.block -o $ORDERER_ADDRESS --tls --cafile $ORDERER_CA && \
 apt-get install curl -y && \
-while ! curl --output - http://localhost:30751; do echo "$(date) - Waiting for peer to come online..."; sleep 1; done && \
+while ! curl -s -o /dev/null -I -L -w "\n%{http_code}\n" --output - http://localhost:30751 -v; do echo "$(date) - Waiting for peer to come online..."; sleep 1; done && \
 peer channel join -b /var/hyperledger/config/${CC_CHANNEL_ID}.block -o $ORDERER_ADDRESS  && \
 echo "List of all channels on peer"  && \
 peer channel list  && \
@@ -25,7 +25,7 @@ while [[ $(kubectl get pods siliconvalley-peer2-0 -o 'jsonpath={..status.conditi
 kubectl exec -it siliconvalley-peer2-0 -c siliconvalley-peer2 -- /bin/bash -li -c '
 peer channel fetch 0 /var/hyperledger/config/${CC_CHANNEL_ID}.block -o $ORDERER_ADDRESS -c $CC_CHANNEL_ID  --tls --cafile $ORDERER_CA && \
 apt-get install curl -y && \
-while ! curl --output - http://localhost:30851; do echo "$(date) - Waiting for peer to come online..."; sleep 1; done && \
+while ! curl -s -o /dev/null -I -L -w "\n%{http_code}\n" --output - http://localhost:30851; do echo "$(date) - Waiting for peer to come online..."; sleep 1; done && \
 peer channel join -b /var/hyperledger/config/${CC_CHANNEL_ID}.block -o $ORDERER_ADDRESS && \
 echo "List of all channels on peer" && \
 peer channel list && \

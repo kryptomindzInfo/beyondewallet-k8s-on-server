@@ -77,7 +77,7 @@ spec:
   ports:
     - name: explorer-nodeport
       port: 8080
-      targetPort: 9000
+      targetPort: 8080
       nodePort: 30080
 
   type: NodePort

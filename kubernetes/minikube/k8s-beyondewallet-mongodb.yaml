@@ -55,3 +55,26 @@ spec:
     - name: beyondewallet-mongodb-clusterip
       port: 27017
   type: ClusterIP
+
+---
+# Expose the port 30751 as node port -  NEEDED if you
+# are interested in connecting to the Pods from the Host
+# machine - keep in mind you would need the IP for the node
+# port service
+apiVersion: v1
+kind: Service
+metadata:
+  name: beyondewallet-mongodb-nodeport
+
+spec:
+  # This defines which pods are going to be represented by this Service
+  # The service becomes a network endpoint for either other services
+  # or maybe external users to connect to (eg browser)
+  selector:
+    app: beyondewallet-mongodb
+
+  ports:
+    - name: beyondewallet-mongodb-nodeport
+      port: 30717
+  type: NodePort
+

@@ -17,7 +17,7 @@ spec:
     spec:     # pod spec                  
       containers: 
       - name: beyondewallet-backend
-        image: beyondewallet/app-middleware:1.0 # image we pushed
+        image: beyondewallet/app-middleware:2.0 # image we pushed
         imagePullPolicy: Always
         # readinessProbe:
         #   httpGet:
