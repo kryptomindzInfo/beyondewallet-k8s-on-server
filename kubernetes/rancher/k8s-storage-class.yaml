@@ -1,0 +1,15 @@
+# This storage class uses the standard minkube provisioner
+# Change this when moving to the cloud e.g., Google K8s Engine | AWS Managed K8s
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: general
+provisioner: local
+# volumeBindingMode: WaitForFirstConsumer
+# parameters:
+#   fsType: ext4
+#   pool: default
+# Adjust provisioner for the cloud setup
+# provisioner: storageos
+# parameters:
+#   type: local

@@ -1,9 +1,11 @@
-eval $(minikube -p minikube docker-env)
-./teardown-network.sh
-./start-fabric-network.sh
+DIR=$1
+
+# eval $(minikube -p minikube docker-env)
+./teardown-network.sh $DIR
+./start-fabric-network.sh $DIR
 ############# peer1 ####################
 
-while [[ $(kubectl get pods siliconvalley-orderer-0 -o 'jsonpath={..status.conditions[?(@.type=="Ready")].status}') != "True" ]]; do echo "orderer pod" && sleep 1; done
+while [[ $(kubectl get pods siliconvalley-orderer-0 -o 'jsonpath={..status.conditions[?(@.type=="Ready")].status}') != "True" ]]; do echo "orderer pod" && sleep 3; done
 while [[ $(kubectl get pods siliconvalley-peer1-0 -o 'jsonpath={..status.conditions[?(@.type=="Ready")].status}') != "True" ]]; do echo "waiting for pod" && sleep 1; done
 
 kubectl exec -it siliconvalley-peer1-0 -c siliconvalley-peer1 -- /bin/bash -li -c ' \
@@ -33,6 +35,6 @@ peer chaincode install -n $CC_NAME -p $CC_PATH -v $CC_VERSION && \
 peer chaincode list --installed -C $CC_CHANNEL_ID'
 
 ############### restart explorer,prometheus and grafana ###############
-./teardown-exp-prom-graf.sh
-./start-explorer.sh
-./start-prom-graf.sh
+./teardown-exp-prom-graf.sh $DIR
+./start-explorer.sh $DIR
+./start-prom-graf.sh $DIR
