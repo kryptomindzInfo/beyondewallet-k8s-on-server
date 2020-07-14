@@ -1,0 +1,27 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: app-ingress
+spec:
+  # backend:
+  #   serviceName: ingress-nginx
+  #   servicePort: 6000
+  rules:
+    - http:
+        paths:
+          - path: /
+            backend:
+              serviceName: beyondewallet-frontend-nodeport
+              servicePort: 4000
+          - path: /api
+            backend:
+              serviceName: beyondewallet-backend-nodeport
+              servicePort: 3001
+          - path: /uploads
+            backend:
+              serviceName: beyondewallet-backend-nodeport
+              servicePort: 3001
+          - path: /ipfs
+            backend:
+              serviceName: beyondewallet-app-nodeport
+              servicePort: 8080

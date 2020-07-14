@@ -4,9 +4,6 @@
 [submodule "fabric-network/ewallet-cc"]
 	path = fabric-network/ewallet-cc
 	url = https://github.com/hlf-dev-zm/ewallet-cc.git
-[submodule "app/--branch"]
-	path = app/--branch
-	url = https://github.com/beyondewallet/frontend.git
 [submodule "app/frontend"]
 	path = app/frontend
 	url = https://github.com/beyondewallet/frontend.git
@@ -16,3 +13,6 @@
 [submodule "app/customer-frontend"]
 	path = app/customer-frontend
 	url = https://github.com/beyondewallet/customer-frontend.git
+[submodule "app/merchant-frontend"]
+	path = app/merchant-frontend
+	url = https://github.com/beyondewallet/merchant-frontend.git
