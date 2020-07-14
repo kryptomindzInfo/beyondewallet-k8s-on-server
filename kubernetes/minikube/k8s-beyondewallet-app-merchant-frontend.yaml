@@ -13,26 +13,26 @@ spec:
   template:
     metadata:
       labels: # labels to select/identify the deployment
-        app: beyondewallet-merchant-frontend  
-    spec:     # pod spec                  
-      containers: 
-      - name: beyondewallet-merchant-frontend
-        image: beyondewallet/app-merchant-frontend:1.0 # image we pushed
-        imagePullPolicy: Always
-        ports:
-        - containerPort: 5001
-        volumeMounts:
-        - name: beyondewallet-merchant-frontend-pvc
-          mountPath: /var/app
+        app: beyondewallet-merchant-frontend
+    spec: # pod spec
+      containers:
+        - name: beyondewallet-merchant-frontend
+          image: beyondewallet/app-merchant-frontend:1.0 # image we pushed
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 5002
+          volumeMounts:
+            - name: beyondewallet-merchant-frontend-pvc
+              mountPath: /var/app
   volumeClaimTemplates:
-  - metadata: 
-      name: beyondewallet-merchant-frontend-pvc
-    spec:
-      accessModes: [ "ReadWriteOnce" ]
-      storageClassName: general
-      resources:
-        requests:
-          storage: 2Gi
+    - metadata:
+        name: beyondewallet-merchant-frontend-pvc
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        storageClassName: general
+        resources:
+          requests:
+            storage: 2Gi
 
 ---
 # Expose the port 30751 as node port -  NEEDED if you
@@ -53,7 +53,7 @@ spec:
 
   ports:
     - name: beyondewallet-merchant-frontend-clusterip
-      port: 5001
+      port: 5002
 
   type: ClusterIP
 
@@ -76,8 +76,8 @@ spec:
 
   ports:
     - name: beyondewallet-merchant-frontend-nodeport
-      port: 5001
-      targetPort: 5001
-      nodePort: 31501
+      port: 5002
+      targetPort: 5002
+      nodePort: 31502
 
   type: NodePort
