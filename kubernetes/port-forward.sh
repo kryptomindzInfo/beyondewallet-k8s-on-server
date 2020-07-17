@@ -10,8 +10,24 @@ if ! curl -s -o /dev/null -I -L -w "\n%{http_code}\n" --output - http://0.0.0.0/
      if [ ! -z $_pid1 ]; then kill $_pid1; fi
      /usr/local/bin/kubectl port-forward svc/ingress-nginx -n ingress-nginx 80:80 --address='0.0.0.0' --request-timeout='0' &
 fi
+if ! curl -s -o /dev/null -I -L -w "\n%{http_code}\n" --output - http://0.0.0.0:5001/ --max-time 10.0 -v
+ then
+
+     _pid1=`/bin/ps -fu $USER| grep "svc/beyondewallet-cust-frontend-nodeport" | grep -v "grep" | awk '{print $2}'`
+     echo $_pid1
+     if [ ! -z $_pid1 ]; then kill $_pid1; fi
+     /usr/local/bin/kubectl port-forward svc/beyondewallet-cust-frontend-nodeport 5001:5001 --address='0.0.0.0' --request-timeout='0' &
+fi
+if ! curl -s -o /dev/null -I -L -w "\n%{http_code}\n" --output - http://0.0.0.0:5002/ --max-time 10.0 -v
+ then
+
+     _pid1=`/bin/ps -fu $USER| grep "svc/beyondewallet-merchant-frontend-nodeport" | grep -v "grep" | awk '{print $2}'`
+     echo $_pid1
+     if [ ! -z $_pid1 ]; then kill $_pid1; fi
+     /usr/local/bin/kubectl port-forward svc/beyondewallet-merchant-frontend-nodeport 5002:5002 --address='0.0.0.0' --request-timeout='0' &
+fi
 echo "********************grafana-nodeport*************************"
-if ! curl -s -o /dev/null -I -L -w "\n%{http_code}\n" --output - http://0.0.0.0:3000/login --max-time 10.0 -v
+if ! curl -s -o /dev/null -I -L -w "\n%{http_code}\n" --output - http://0.0.0.0:3000/login -v
  then
      _pid2=`/bin/ps -fu $USER| grep "svc/grafana-nodeport" | grep -v "grep" | awk '{print $2}'`
      echo $_pid2
@@ -21,7 +37,7 @@ if ! curl -s -o /dev/null -I -L -w "\n%{http_code}\n" --output - http://0.0.0.0:
 
 fi
 echo "********************prometheus-nodeport*************************"
-if ! curl -s -o /dev/null -L -w "\n%{http_code}\n" --output - http://0.0.0.0:9090/graph --max-time 10.0 -v
+if ! curl -s -o /dev/null -L -w "\n%{http_code}\n" --output - http://0.0.0.0:9090/graph -v
  then
      _pid3=`/bin/ps -fu $USER| grep "svc/prometheus-nodeport" | grep -v "grep" | awk '{print $2}'`
      echo $_pid3
@@ -31,7 +47,7 @@ if ! curl -s -o /dev/null -L -w "\n%{http_code}\n" --output - http://0.0.0.0:909
 
 fi
 echo "********************explorer-nodeport*************************"
-if ! curl -s -o /dev/null -I -L -w "\n%{http_code}\n" --output - http://0.0.0.0:8080/ --max-time 10.0 -v
+if ! curl -s -o /dev/null -I -L -w "\n%{http_code}\n" --output - http://0.0.0.0:8080/ -v
  then
      _pid4=`/bin/ps -fu $USER| grep "svc/explorer-nodeport" | grep -v "grep" | awk '{print $2}'`
      echo $_pid4
