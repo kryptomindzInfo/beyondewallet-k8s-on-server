@@ -20,7 +20,7 @@ spec:
           image: beyondewallet/app-merchant-frontend:1.0 # image we pushed
           imagePullPolicy: Always
           ports:
-            - containerPort: 5002
+            - containerPort: 80
           volumeMounts:
             - name: beyondewallet-merchant-frontend-pvc
               mountPath: /var/app
@@ -53,7 +53,7 @@ spec:
 
   ports:
     - name: beyondewallet-merchant-frontend-clusterip
-      port: 5002
+      port: 80
 
   type: ClusterIP
 
@@ -77,7 +77,7 @@ spec:
   ports:
     - name: beyondewallet-merchant-frontend-nodeport
       port: 5002
-      targetPort: 5002
+      targetPort: 80
       nodePort: 31502
 
   type: NodePort
