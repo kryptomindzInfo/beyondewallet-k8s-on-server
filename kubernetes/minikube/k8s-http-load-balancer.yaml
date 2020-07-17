@@ -13,7 +13,7 @@ spec:
         - path: /
           backend:
             serviceName: beyondewallet-frontend-nodeport
-            servicePort: 80
+            servicePort: 4000
         - path: /api
           backend:
             serviceName: beyondewallet-backend-nodeport

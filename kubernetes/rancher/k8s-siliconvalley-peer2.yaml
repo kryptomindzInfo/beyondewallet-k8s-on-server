@@ -1,0 +1,165 @@
+# YAML for launching the orderer
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: siliconvalley-peer2
+  labels:
+    app: siliconvalley-peer2
+spec:
+  serviceName: siliconvalley-peer2
+  replicas: 1
+  selector:
+    matchLabels:
+      app: siliconvalley-peer2
+  template:
+    metadata:
+      labels:
+        app: siliconvalley-peer2
+    spec:
+      containers:
+        - name: siliconvalley-peer2
+          # Image used
+          image: beyondewallet/k8s-hlf-siliconvalley-peer2:1.0
+          # Uncomment the following during development/testing of the image
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: FABRIC_CFG_PATH
+              value: /var/hyperledger/config
+            - name: FABRIC_LOGGING_SPEC
+              value: INFO
+            - name: ORG_CONTEXT
+              value: siliconvalley
+            - name: GOPATH
+              value: /opt/gopath/src/github.com/
+            - name: ORDERER_ADDRESS
+              value: siliconvalley-orderer-clusterip:30750
+            - name: CORE_PEER_ADDRESS
+              value: localhost:30851
+            - name: CORE_PEER_LISTENADDRESS
+              value: 0.0.0.0:30851
+            - name: CORE_PEER_GOSSIP_EXTERNALENDPOINT
+              value: siliconvalley-peer2-clusterip:30851
+            - name: CORE_PEER_GOSSIP_BOOTSTRAP
+              value: siliconvalley-peer1-clusterip:30751
+            - name: CORE_PEER_TLS_ENABLED
+              value: "true"
+            - name: CORE_PEER_TLS_CERT_FILE
+              value: /var/hyperledger/fabric/tls/server.crt
+            - name: CORE_PEER_TLS_KEY_FILE
+              value: /var/hyperledger/fabric/tls/server.key
+            - name: CORE_PEER_TLS_ROOTCERT_FILE
+              value: /var/hyperledger/fabric/tls/ca.crt
+            - name: CORE_METRICS_PROVIDER
+              value: prometheus
+            - name: CORE_OPERATIONS_LISTENADDRESS
+              value: 0.0.0.0:9443
+            - name: CORE_LEDGER_STATE_STATEDATABASE
+              value: CouchDB
+            - name: CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS
+              value: localhost:5984
+            - name: ORDERER_CA
+              value: /var/hyperledger/tlsca/tlsca.siliconvalley.com-cert.pem
+            - name: CC_NAME
+              value: ewallet-app
+            - name: CC_PATH
+              value: ewallet-cc
+            - name: CC_VERSION
+              value: "1.0"
+            - name: CC_CHANNEL_ID
+              value: ewalletchannel
+          volumeMounts:
+            - name: siliconvalley-peer2-ledger
+              mountPath: /var/ledger
+            - name: dockersock
+              mountPath: /var/run/docker.sock
+          ports:
+            - containerPort: 30851
+            - containerPort: 30852
+            - containerPort: 9443
+        - name: siliconvalley-couchdb2
+          # Image used
+          image: hyperledger/fabric-couchdb:0.4.18
+          # Uncomment the following during development/testing of the image
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 5984
+          volumeMounts:
+            - name: siliconvalley-peer2-ledger
+              mountPath: /var/db
+      volumes:
+        - name: dockersock
+          hostPath:
+            path: /var/run/docker.sock
+  volumeClaimTemplates:
+    - metadata:
+        name: siliconvalley-peer2-ledger
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        storageClassName: general
+        resources:
+          requests:
+            storage: 1Gi
+
+---
+# Expose the port 7051 as ClusterIP
+apiVersion: v1
+kind: Service
+metadata:
+  name: siliconvalley-peer2-clusterip
+
+spec:
+  # This defines which pods are going to be represented by this Service
+  # The service becomes a network endpoint for either other services
+  # or maybe external users to connect to (eg browser)
+  selector:
+    app: siliconvalley-peer2
+
+  ports:
+    - name: siliconvalley-peer2-clusterip
+      port: 30851
+    - name: siliconvalley-peer2-cc-clusterip
+      port: 30852
+    - name: siliconvalley-peer2-event-clusterip
+      port: 8053
+    - name: siliconvalley-peer2-prometheus-clusterip
+      port: 9443
+    - name: siliconvalley-peer2-couchdb-clusterip
+      port: 5984
+
+  type: ClusterIP
+# ---
+# # Expose the port 30751 as node port -  NEEDED if you
+# # are interested in connecting to the Pods from the Host
+# # machine - keep in mind you would need the IP for the node
+# # port service
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: siliconvalley-peer2-nodeport
+
+# spec:
+#   # This defines which pods are going to be represented by this Service
+#   # The service becomes a network endpoint for either other services
+#   # or maybe external users to connect to (eg browser)
+#   selector:
+#     app: siliconvalley-peer2
+
+#   ports:
+#     - name: siliconvalley-peer2-nodeport-751
+#       port: 31851
+#       targetPort: 30851
+#       nodePort: 30851
+#     - name: siliconvalley-peer2-cc-nodeport-752
+#       port: 32852
+#       targetPort: 30852
+#       nodePort: 30852
+#     - name: siliconvalley-peer2-prometheus-nodeport
+#       port: 9443
+#       targetPort: 9443
+#       nodePort: 31943
+#     - name: siliconvalley-peer2-couchdb-nodeport
+#       port: 5984
+#       targetPort: 5984
+#       nodePort: 31984
+
+#   type: NodePort

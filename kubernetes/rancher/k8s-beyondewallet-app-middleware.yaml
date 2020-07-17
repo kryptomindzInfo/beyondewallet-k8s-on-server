@@ -13,34 +13,34 @@ spec:
   template:
     metadata:
       labels: # labels to select/identify the deployment
-        app: beyondewallet-backend  
-    spec:     # pod spec                  
-      containers: 
-      - name: beyondewallet-backend
-        image: beyondewallet/app-middleware:2.0 # image we pushed
-        imagePullPolicy: Always
-        # readinessProbe:
-        #   httpGet:
-        #     path: 
-        #     port: 3001
-        #   periodSeconds: 1
-        #   timeoutSeconds: 1
-        #   successThreshold: 1
-        #   failureThreshold: 10
-        ports:
-        - containerPort: 3001
-        volumeMounts:
-        - name: beyondewallet-backend-pvc
-          mountPath: /var/app
+        app: beyondewallet-backend
+    spec: # pod spec
+      containers:
+        - name: beyondewallet-backend
+          image: beyondewallet/app-middleware:2.0 # image we pushed
+          imagePullPolicy: IfNotPresent
+          # readinessProbe:
+          #   httpGet:
+          #     path:
+          #     port: 3001
+          #   periodSeconds: 1
+          #   timeoutSeconds: 1
+          #   successThreshold: 1
+          #   failureThreshold: 10
+          ports:
+            - containerPort: 3001
+          volumeMounts:
+            - name: beyondewallet-backend-pvc
+              mountPath: /var/app
   volumeClaimTemplates:
-  - metadata: 
-      name: beyondewallet-backend-pvc
-    spec:
-      accessModes: [ "ReadWriteOnce" ]
-      storageClassName: general
-      resources:
-        requests:
-          storage: 1Gi
+    - metadata:
+        name: beyondewallet-backend-pvc
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        storageClassName: general
+        resources:
+          requests:
+            storage: 1Gi
 
 ---
 # Expose the port 30751 as node port -  NEEDED if you

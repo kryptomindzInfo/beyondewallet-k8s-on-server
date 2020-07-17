@@ -1,38 +1,38 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: beyondewallet-mongodb
+  name: beyondewallet-cust-frontend
   labels:
-    app: beyondewallet-mongodb
+    app: beyondewallet-cust-frontend
 spec:
-  serviceName: beyondewallet-mongodb
+  serviceName: beyondewallet-cust-frontend
   replicas: 1
   selector:
     matchLabels:
-      app: beyondewallet-mongodb
+      app: beyondewallet-cust-frontend
   template:
     metadata:
       labels: # labels to select/identify the deployment
-        app: beyondewallet-mongodb  
-    spec:     # pod spec                  
-      containers: 
-      - name: beyondewallet-mongodb-db
-        image: mongo
-        imagePullPolicy: IfNotPresent
-        ports:
-        - containerPort: 27017
-        volumeMounts:
-        - name: beyondewallet-mongodb-pvc
-          mountPath: /var/db
+        app: beyondewallet-cust-frontend
+    spec: # pod spec
+      containers:
+        - name: beyondewallet-cust-frontend
+          image: beyondewallet/app-customer-frontend:1.0 # image we pushed
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: beyondewallet-cust-frontend-pvc
+              mountPath: /var/app
   volumeClaimTemplates:
-  - metadata: 
-      name: beyondewallet-mongodb-pvc
-    spec:
-      accessModes: [ "ReadWriteOnce" ]
-      storageClassName: general
-      resources:
-        requests:
-          storage: 1Gi
+    - metadata:
+        name: beyondewallet-cust-frontend-pvc
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        storageClassName: general
+        resources:
+          requests:
+            storage: 2Gi
 
 ---
 # Expose the port 30751 as node port -  NEEDED if you
@@ -42,18 +42,19 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: beyondewallet-mongodb-clusterip
+  name: beyondewallet-cust-frontend-clusterip
 
 spec:
   # This defines which pods are going to be represented by this Service
   # The service becomes a network endpoint for either other services
   # or maybe external users to connect to (eg browser)
   selector:
-    app: beyondewallet-mongodb
+    app: beyondewallet-cust-frontend
 
   ports:
-    - name: beyondewallet-mongodb-clusterip
-      port: 27017
+    - name: beyondewallet-cust-frontend-clusterip
+      port: 80
+
   type: ClusterIP
 
 ---
@@ -64,17 +65,19 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: beyondewallet-mongodb-nodeport
+  name: beyondewallet-cust-frontend-nodeport
 
 spec:
   # This defines which pods are going to be represented by this Service
   # The service becomes a network endpoint for either other services
   # or maybe external users to connect to (eg browser)
   selector:
-    app: beyondewallet-mongodb
+    app: beyondewallet-cust-frontend
 
   ports:
-    - name: beyondewallet-mongodb-nodeport
-      port: 30717
-  type: NodePort
+    - name: beyondewallet-cust-frontend-nodeport
+      port: 5001
+      targetPort: 80
+      nodePort: 31501
 
+  type: NodePort
