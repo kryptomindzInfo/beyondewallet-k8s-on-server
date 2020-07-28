@@ -67,6 +67,8 @@ spec:
               value: "1.0"
             - name: CC_CHANNEL_ID
               value: ewalletchannel
+            - name: CORE_CHAINCODE_BUILDER
+              value: hyperledger/fabric-ccenv:1.4
           volumeMounts:
             - name: siliconvalley-peer1-ledger
               mountPath: /var/ledger
@@ -127,39 +129,39 @@ spec:
       port: 5984
 
   type: ClusterIP
-# ---
-# # Expose the port 30751 as node port -  NEEDED if you
-# # are interested in connecting to the Pods from the Host
-# # machine - keep in mind you would need the IP for the node
-# # port service
-# apiVersion: v1
-# kind: Service
-# metadata:
-#   name: siliconvalley-peer1-nodeport
 
-# spec:
-#   # This defines which pods are going to be represented by this Service
-#   # The service becomes a network endpoint for either other services
-#   # or maybe external users to connect to (eg browser)
-#   selector:
-#     app: siliconvalley-peer1
+---
+# Expose the port 30751 as node port -  NEEDED if you
+# are interested in connecting to the Pods from the Host
+# machine - keep in mind you would need the IP for the node
+# port service
+apiVersion: v1
+kind: Service
+metadata:
+  name: siliconvalley-peer1-nodeport
 
-#   ports:
-#     - name: siliconvalley-peer1-nodeport-751
-#       port: 31751
-#       targetPort: 30751
-#       nodePort: 30751
-#     - name: siliconvalley-peer1-cc-nodeport-752
-#       port: 32752
-#       targetPort: 30752
-#       nodePort: 30752
-#     - name: siliconvalley-peer1-prometheus-nodeport
-#       port: 9443
-#       targetPort: 9443
-#       nodePort: 30943
-#     - name: siliconvalley-peer1-couchdb-nodeport
-#       port: 5984
-#       targetPort: 5984
-#       nodePort: 30984
+spec:
+  # This defines which pods are going to be represented by this Service
+  # The service becomes a network endpoint for either other services
+  # or maybe external users to connect to (eg browser)
+  selector:
+    app: siliconvalley-peer1
+  ports:
+    - name: siliconvalley-peer1-nodeport-751
+      port: 31751
+      targetPort: 30751
+      nodePort: 30751
+    - name: siliconvalley-peer1-cc-nodeport-752
+      port: 32752
+      targetPort: 30752
+      nodePort: 30752
+    - name: siliconvalley-peer1-prometheus-nodeport
+      port: 9443
+      targetPort: 9443
+      nodePort: 30943
+    - name: siliconvalley-peer1-couchdb-nodeport
+      port: 5984
+      targetPort: 5984
+      nodePort: 30984
 
-#   type: NodePort
+  type: NodePort

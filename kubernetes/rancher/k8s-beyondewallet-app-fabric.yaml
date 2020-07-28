@@ -24,7 +24,7 @@ spec:
               "-c",
               "node enrollAdmin.js && node registerUser.js && node server.js",
             ]
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           ports:
             - containerPort: 8000
           volumeMounts:

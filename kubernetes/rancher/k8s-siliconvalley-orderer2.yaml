@@ -86,26 +86,27 @@ spec:
       port: 30750
 
   type: ClusterIP
-# ---
-# # Expose the port 30750 as node port - NEEDED if you
-# # are interested in connecting to the Pods from the Host
-# # machine - keep in mind you would need the IP for the node
-# # port service
-# apiVersion: v1
-# kind: Service
-# metadata:
-#   name: siliconvalley-orderer2-nodeport
 
-# spec:
-#   # This defines which pods are going to be represented by this Service
-#   # The service becomes a network endpoint for either other services
-#   # or maybe external users to connect to (eg browser)
-#   selector:
-#     app: siliconvalley-orderer2
+---
+# Expose the port 30750 as node port - NEEDED if you
+# are interested in connecting to the Pods from the Host
+# machine - keep in mind you would need the IP for the node
+# port service
+apiVersion: v1
+kind: Service
+metadata:
+  name: siliconvalley-orderer2-nodeport
 
-#   ports:
-#     - name: siliconvalley-orderer2-nodeport
-#       port: 30750
-#       nodePort: 30850
+spec:
+  # This defines which pods are going to be represented by this Service
+  # The service becomes a network endpoint for either other services
+  # or maybe external users to connect to (eg browser)
+  selector:
+    app: siliconvalley-orderer2
 
-#   type: NodePort
+  ports:
+    - name: siliconvalley-orderer2-nodeport
+      port: 30750
+      nodePort: 30850
+
+  type: NodePort

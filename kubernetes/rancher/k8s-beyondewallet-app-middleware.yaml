@@ -18,7 +18,7 @@ spec:
       containers:
         - name: beyondewallet-backend
           image: beyondewallet/app-middleware:2.0 # image we pushed
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           # readinessProbe:
           #   httpGet:
           #     path:
