@@ -18,12 +18,12 @@ spec:
       containers:
         - name: beyondewallet-mongodb-db
           image: mongo
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           ports:
             - containerPort: 27017
           volumeMounts:
             - name: beyondewallet-mongodb-pvc
-              mountPath: /var/db
+              mountPath: /data/db
   volumeClaimTemplates:
     - metadata:
         name: beyondewallet-mongodb-pvc
