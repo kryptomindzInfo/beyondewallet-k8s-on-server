@@ -1,0 +1,83 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: beyondewallet-partner-frontend
+  labels:
+    app: beyondewallet-partner-frontend
+spec:
+  serviceName: beyondewallet-partner-frontend
+  replicas: 1
+  selector:
+    matchLabels:
+      app: beyondewallet-partner-frontend
+  template:
+    metadata:
+      labels: # labels to select/identify the deployment
+        app: beyondewallet-partner-frontend
+    spec: # pod spec
+      containers:
+        - name: beyondewallet-partner-frontend
+          image: beyondewallet/app-partner-frontend:1.0 # image we pushed
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: beyondewallet-partner-frontend-pvc
+              mountPath: /var/app
+  volumeClaimTemplates:
+    - metadata:
+        name: beyondewallet-partner-frontend-pvc
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        storageClassName: general
+        resources:
+          requests:
+            storage: 2Gi
+
+---
+# Expose the port 30751 as node port -  NEEDED if you
+# are interested in connecting to the Pods from the Host
+# machine - keep in mind you would need the IP for the node
+# port service
+apiVersion: v1
+kind: Service
+metadata:
+  name: beyondewallet-partner-frontend-clusterip
+
+spec:
+  # This defines which pods are going to be represented by this Service
+  # The service becomes a network endpoint for either other services
+  # or maybe external users to connect to (eg browser)
+  selector:
+    app: beyondewallet-partner-frontend
+
+  ports:
+    - name: beyondewallet-partner-frontend-clusterip
+      port: 5003
+
+  type: ClusterIP
+
+---
+# Expose the port 30751 as node port -  NEEDED if you
+# are interested in connecting to the Pods from the Host
+# machine - keep in mind you would need the IP for the node
+# port service
+apiVersion: v1
+kind: Service
+metadata:
+  name: beyondewallet-partner-frontend-nodeport
+
+spec:
+  # This defines which pods are going to be represented by this Service
+  # The service becomes a network endpoint for either other services
+  # or maybe external users to connect to (eg browser)
+  selector:
+    app: beyondewallet-partner-frontend
+
+  ports:
+    - name: beyondewallet-partner-frontend-nodeport
+      port: 5003
+      targetPort: 80
+      nodePort: 31503
+
+  type: NodePort
