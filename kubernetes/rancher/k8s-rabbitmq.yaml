@@ -48,8 +48,12 @@ spec:
     app: rabbitmq
 
   ports:
-    - name: rabbitmq-clusterip
+    - name: rabbitmq-manager-clusterip
       port: 15672
+    - name: rabbitmq-amqp-clusterip
+      port: 5672
+    # - name: rabbitmq-amqp-tls-clusterip
+    #   port: 5671
 
   type: ClusterIP
 
@@ -67,6 +71,6 @@ spec:
     - name: rabbitmq-nodeport
       port: 15672
       targetPort: 15672
-      nodePort: 35672
+      nodePort: 31672
 
   type: NodePort
