@@ -1,0 +1,72 @@
+# YAML for launching the orderer
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: rabbitmq
+  labels:
+    app: rabbitmq
+spec:
+  serviceName: rabbitmq
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rabbitmq
+  template:
+    metadata:
+      labels:
+        app: rabbitmq
+    spec:
+      containers:
+        - name: postgres
+          # Image used
+          image: rabbitmq:3-management
+          imagePullPolicy: IfNotPresent
+          volumeMounts:
+            - name: rabbitmq
+              mountPath: /var/data
+          ports:
+            - containerPort: 15672
+  volumeClaimTemplates:
+    - metadata:
+        name: rabbitmq
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        storageClassName: general
+        resources:
+          requests:
+            storage: 1Gi
+
+---
+# Expose the port 7054 as ClusterIP
+apiVersion: v1
+kind: Service
+metadata:
+  name: rabbitmq-clusterip
+
+spec:
+  selector:
+    app: rabbitmq
+
+  ports:
+    - name: rabbitmq-clusterip
+      port: 15672
+
+  type: ClusterIP
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rabbitmq-nodeport
+
+spec:
+  selector:
+    app: rabbitmq
+
+  ports:
+    - name: rabbitmq-nodeport
+      port: 15672
+      targetPort: 15672
+      nodePort: 35672
+
+  type: NodePort
