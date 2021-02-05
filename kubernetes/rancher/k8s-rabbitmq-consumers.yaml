@@ -16,7 +16,7 @@ spec:
         app: rabbitmq-consumer
     spec: # pod spec
       containers:
-        - name: rabbitmq-consumer
+        - name: rabbitmq-consumer-fee
           image: beyondewallet/rabbitmq-consumer:1.0 # image we pushed
           imagePullPolicy: Always
           env:
@@ -27,7 +27,7 @@ spec:
           volumeMounts:
             - name: rabbitmq-consumer-pvc
               mountPath: /usr/src/app
-        - name: rabbitmq-consumer
+        - name: rabbitmq-consumer-infrapercent
           image: beyondewallet/rabbitmq-consumer:1.0 # image we pushed
           imagePullPolicy: Always
           env:
@@ -38,7 +38,7 @@ spec:
           volumeMounts:
             - name: rabbitmq-consumer-pvc
               mountPath: /usr/src/app
-        - name: rabbitmq-consumer
+        - name: rabbitmq-consumer-infrafixed
           image: beyondewallet/rabbitmq-consumer:1.0 # image we pushed
           imagePullPolicy: Always
           env:
@@ -49,7 +49,7 @@ spec:
           volumeMounts:
             - name: rabbitmq-consumer-pvc
               mountPath: /usr/src/app
-        - name: rabbitmq-consumer
+        - name: rabbitmq-consumer-sendfee
           image: beyondewallet/rabbitmq-consumer:1.0 # image we pushed
           imagePullPolicy: Always
           env:
@@ -60,7 +60,7 @@ spec:
           volumeMounts:
             - name: rabbitmq-consumer-pvc
               mountPath: /usr/src/app
-        - name: rabbitmq-consumer
+        - name: rabbitmq-consumer-claimfee
           image: beyondewallet/rabbitmq-consumer:1.0 # image we pushed
           imagePullPolicy: Always
           env:
@@ -71,7 +71,7 @@ spec:
           volumeMounts:
             - name: rabbitmq-consumer-pvc
               mountPath: /usr/src/app
-        - name: rabbitmq-consumer
+        - name: rabbitmq-consumer-bankmaster
           image: beyondewallet/rabbitmq-consumer:1.0 # image we pushed
           imagePullPolicy: Always
           env:
@@ -82,7 +82,7 @@ spec:
           volumeMounts:
             - name: rabbitmq-consumer-pvc
               mountPath: /usr/src/app
-        - name: rabbitmq-consumer
+        - name: rabbitmq-consumer-inframaster
           image: beyondewallet/rabbitmq-consumer:1.0 # image we pushed
           imagePullPolicy: Always
           env:
@@ -93,7 +93,7 @@ spec:
           volumeMounts:
             - name: rabbitmq-consumer-pvc
               mountPath: /usr/src/app
-        - name: rabbitmq-consumer
+        - name: rabbitmq-consumer-sendmaster
           image: beyondewallet/rabbitmq-consumer:1.0 # image we pushed
           imagePullPolicy: Always
           env:
@@ -104,7 +104,7 @@ spec:
           volumeMounts:
             - name: rabbitmq-consumer-pvc
               mountPath: /usr/src/app
-        - name: rabbitmq-consumer
+        - name: rabbitmq-consumer-claimmaster
           image: beyondewallet/rabbitmq-consumer:1.0 # image we pushed
           imagePullPolicy: Always
           env:
@@ -115,7 +115,7 @@ spec:
           volumeMounts:
             - name: rabbitmq-consumer-pvc
               mountPath: /usr/src/app
-        - name: rabbitmq-consumer
+        - name: rabbitmq-consumer-general
           image: beyondewallet/rabbitmq-consumer:1.0 # image we pushed
           imagePullPolicy: Always
           env:
