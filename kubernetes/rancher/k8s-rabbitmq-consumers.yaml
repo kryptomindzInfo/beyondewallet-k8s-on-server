@@ -1,0 +1,126 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: rabbitmq-consumer
+  labels:
+    app: rabbitmq-consumer
+spec:
+  serviceName: rabbitmq-consumer
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rabbitmq-consumer
+  template:
+    metadata:
+      labels: # labels to select/identify the deployment
+        app: rabbitmq-consumer
+    spec: # pod spec
+      containers:
+        - name: rabbitmq-consumer
+          image: beyondewallet/rabbitmq-consumer:1.0 # image we pushed
+          imagePullPolicy: Always
+          env:
+            - name: CONNECTION_URL
+              value: amqp://rabbitmq-clusterip:5672
+            - name: QUEUE_NAME
+              value: FEE
+          volumeMounts:
+            - name: rabbitmq-consumer-pvc
+              mountPath: /usr/src/app
+        - name: rabbitmq-consumer
+          image: beyondewallet/rabbitmq-consumer:1.0 # image we pushed
+          imagePullPolicy: Always
+          env:
+            - name: CONNECTION_URL
+              value: amqp://rabbitmq-clusterip:5672
+            - name: QUEUE_NAME
+              value: INFRAPERCENT
+          volumeMounts:
+            - name: rabbitmq-consumer-pvc
+              mountPath: /usr/src/app
+        - name: rabbitmq-consumer
+          image: beyondewallet/rabbitmq-consumer:1.0 # image we pushed
+          imagePullPolicy: Always
+          env:
+            - name: CONNECTION_URL
+              value: amqp://rabbitmq-clusterip:5672
+            - name: QUEUE_NAME
+              value: INFRAFIXED
+          volumeMounts:
+            - name: rabbitmq-consumer-pvc
+              mountPath: /usr/src/app
+        - name: rabbitmq-consumer
+          image: beyondewallet/rabbitmq-consumer:1.0 # image we pushed
+          imagePullPolicy: Always
+          env:
+            - name: CONNECTION_URL
+              value: amqp://rabbitmq-clusterip:5672
+            - name: QUEUE_NAME
+              value: SENDFEE
+          volumeMounts:
+            - name: rabbitmq-consumer-pvc
+              mountPath: /usr/src/app
+        - name: rabbitmq-consumer
+          image: beyondewallet/rabbitmq-consumer:1.0 # image we pushed
+          imagePullPolicy: Always
+          env:
+            - name: CONNECTION_URL
+              value: amqp://rabbitmq-clusterip:5672
+            - name: QUEUE_NAME
+              value: CLAIMFEE
+          volumeMounts:
+            - name: rabbitmq-consumer-pvc
+              mountPath: /usr/src/app
+        - name: rabbitmq-consumer
+          image: beyondewallet/rabbitmq-consumer:1.0 # image we pushed
+          imagePullPolicy: Always
+          env:
+            - name: CONNECTION_URL
+              value: amqp://rabbitmq-clusterip:5672
+            - name: QUEUE_NAME
+              value: BANKMASTER
+          volumeMounts:
+            - name: rabbitmq-consumer-pvc
+              mountPath: /usr/src/app
+        - name: rabbitmq-consumer
+          image: beyondewallet/rabbitmq-consumer:1.0 # image we pushed
+          imagePullPolicy: Always
+          env:
+            - name: CONNECTION_URL
+              value: amqp://rabbitmq-clusterip:5672
+            - name: QUEUE_NAME
+              value: INFRAMASTER
+          volumeMounts:
+            - name: rabbitmq-consumer-pvc
+              mountPath: /usr/src/app
+        - name: rabbitmq-consumer
+          image: beyondewallet/rabbitmq-consumer:1.0 # image we pushed
+          imagePullPolicy: Always
+          env:
+            - name: CONNECTION_URL
+              value: amqp://rabbitmq-clusterip:5672
+            - name: QUEUE_NAME
+              value: SENDMASTER
+          volumeMounts:
+            - name: rabbitmq-consumer-pvc
+              mountPath: /usr/src/app
+        - name: rabbitmq-consumer
+          image: beyondewallet/rabbitmq-consumer:1.0 # image we pushed
+          imagePullPolicy: Always
+          env:
+            - name: CONNECTION_URL
+              value: amqp://rabbitmq-clusterip:5672
+            - name: QUEUE_NAME
+              value: CLAIMMASTER
+          volumeMounts:
+            - name: rabbitmq-consumer-pvc
+              mountPath: /usr/src/app
+  volumeClaimTemplates:
+    - metadata:
+        name: rabbitmq-consumer-pvc
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        storageClassName: general
+        resources:
+          requests:
+            storage: 1Gi
