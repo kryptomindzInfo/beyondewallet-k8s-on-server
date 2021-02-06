@@ -26,7 +26,7 @@ spec:
               value: FEE
           volumeMounts:
             - name: rabbitmq-consumer-pvc
-              mountPath: /usr/src/app
+              mountPath: /var/queue/fee
         - name: rabbitmq-consumer-infrapercent
           image: beyondewallet/rabbitmq-consumer:1.0 # image we pushed
           imagePullPolicy: Always
@@ -37,7 +37,7 @@ spec:
               value: INFRAPERCENT
           volumeMounts:
             - name: rabbitmq-consumer-pvc
-              mountPath: /usr/src/app
+              mountPath: /var/queue/infrapercent
         - name: rabbitmq-consumer-infrafixed
           image: beyondewallet/rabbitmq-consumer:1.0 # image we pushed
           imagePullPolicy: Always
@@ -48,7 +48,7 @@ spec:
               value: INFRAFIXED
           volumeMounts:
             - name: rabbitmq-consumer-pvc
-              mountPath: /usr/src/app
+              mountPath: /var/queue/infrafixed
         - name: rabbitmq-consumer-sendfee
           image: beyondewallet/rabbitmq-consumer:1.0 # image we pushed
           imagePullPolicy: Always
@@ -59,7 +59,7 @@ spec:
               value: SENDFEE
           volumeMounts:
             - name: rabbitmq-consumer-pvc
-              mountPath: /usr/src/app
+              mountPath: /var/queue/sendfee
         - name: rabbitmq-consumer-claimfee
           image: beyondewallet/rabbitmq-consumer:1.0 # image we pushed
           imagePullPolicy: Always
@@ -70,7 +70,7 @@ spec:
               value: CLAIMFEE
           volumeMounts:
             - name: rabbitmq-consumer-pvc
-              mountPath: /usr/src/app
+              mountPath: /var/queue/claimfee
         - name: rabbitmq-consumer-bankmaster
           image: beyondewallet/rabbitmq-consumer:1.0 # image we pushed
           imagePullPolicy: Always
@@ -81,7 +81,7 @@ spec:
               value: BANKMASTER
           volumeMounts:
             - name: rabbitmq-consumer-pvc
-              mountPath: /usr/src/app
+              mountPath: /var/queue/bankmaster
         - name: rabbitmq-consumer-inframaster
           image: beyondewallet/rabbitmq-consumer:1.0 # image we pushed
           imagePullPolicy: Always
@@ -92,7 +92,7 @@ spec:
               value: INFRAMASTER
           volumeMounts:
             - name: rabbitmq-consumer-pvc
-              mountPath: /usr/src/app
+              mountPath: /var/queue/inframaster
         - name: rabbitmq-consumer-sendmaster
           image: beyondewallet/rabbitmq-consumer:1.0 # image we pushed
           imagePullPolicy: Always
@@ -103,7 +103,7 @@ spec:
               value: SENDMASTER
           volumeMounts:
             - name: rabbitmq-consumer-pvc
-              mountPath: /usr/src/app
+              mountPath: /var/queue/sendmaster
         - name: rabbitmq-consumer-claimmaster
           image: beyondewallet/rabbitmq-consumer:1.0 # image we pushed
           imagePullPolicy: Always
@@ -114,7 +114,7 @@ spec:
               value: CLAIMMASTER
           volumeMounts:
             - name: rabbitmq-consumer-pvc
-              mountPath: /usr/src/app
+              mountPath: /var/queue/claimmaster
         - name: rabbitmq-consumer-general
           image: beyondewallet/rabbitmq-consumer:1.0 # image we pushed
           imagePullPolicy: Always
@@ -125,7 +125,7 @@ spec:
               value: GENERAL
           volumeMounts:
             - name: rabbitmq-consumer-pvc
-              mountPath: /usr/src/app
+              mountPath: /var/queue/general
   volumeClaimTemplates:
     - metadata:
         name: rabbitmq-consumer-pvc
