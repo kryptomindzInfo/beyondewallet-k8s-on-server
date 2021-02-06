@@ -21,7 +21,7 @@ spec:
           imagePullPolicy: Always
           env:
             - name: CONNECTION_URL
-              value: amqp://rabbitmq-clusterip:5672
+              value: amqp://guest:guest@rabbitmq-clusterip:5672
             - name: QUEUE_NAME
               value: FEE
           volumeMounts:
@@ -32,7 +32,7 @@ spec:
           imagePullPolicy: Always
           env:
             - name: CONNECTION_URL
-              value: amqp://rabbitmq-clusterip:5672
+              value: amqp://guest:guest@rabbitmq-clusterip:5672
             - name: QUEUE_NAME
               value: INFRAPERCENT
           volumeMounts:
@@ -43,7 +43,7 @@ spec:
           imagePullPolicy: Always
           env:
             - name: CONNECTION_URL
-              value: amqp://rabbitmq-clusterip:5672
+              value: amqp://guest:guest@rabbitmq-clusterip:5672
             - name: QUEUE_NAME
               value: INFRAFIXED
           volumeMounts:
@@ -54,7 +54,7 @@ spec:
           imagePullPolicy: Always
           env:
             - name: CONNECTION_URL
-              value: amqp://rabbitmq-clusterip:5672
+              value: amqp://guest:guest@rabbitmq-clusterip:5672
             - name: QUEUE_NAME
               value: SENDFEE
           volumeMounts:
@@ -65,7 +65,7 @@ spec:
           imagePullPolicy: Always
           env:
             - name: CONNECTION_URL
-              value: amqp://rabbitmq-clusterip:5672
+              value: amqp://guest:guest@rabbitmq-clusterip:5672
             - name: QUEUE_NAME
               value: CLAIMFEE
           volumeMounts:
@@ -76,7 +76,7 @@ spec:
           imagePullPolicy: Always
           env:
             - name: CONNECTION_URL
-              value: amqp://rabbitmq-clusterip:5672
+              value: amqp://guest:guest@rabbitmq-clusterip:5672
             - name: QUEUE_NAME
               value: BANKMASTER
           volumeMounts:
@@ -87,7 +87,7 @@ spec:
           imagePullPolicy: Always
           env:
             - name: CONNECTION_URL
-              value: amqp://rabbitmq-clusterip:5672
+              value: amqp://guest:guest@rabbitmq-clusterip:5672
             - name: QUEUE_NAME
               value: INFRAMASTER
           volumeMounts:
@@ -98,7 +98,7 @@ spec:
           imagePullPolicy: Always
           env:
             - name: CONNECTION_URL
-              value: amqp://rabbitmq-clusterip:5672
+              value: amqp://guest:guest@rabbitmq-clusterip:5672
             - name: QUEUE_NAME
               value: SENDMASTER
           volumeMounts:
@@ -109,7 +109,7 @@ spec:
           imagePullPolicy: Always
           env:
             - name: CONNECTION_URL
-              value: amqp://rabbitmq-clusterip:5672
+              value: amqp://guest:guest@rabbitmq-clusterip:5672
             - name: QUEUE_NAME
               value: CLAIMMASTER
           volumeMounts:
@@ -120,7 +120,7 @@ spec:
           imagePullPolicy: Always
           env:
             - name: CONNECTION_URL
-              value: amqp://rabbitmq-clusterip:5672
+              value: amqp://guest:guest@rabbitmq-clusterip:5672
             - name: QUEUE_NAME
               value: GENERAL
           volumeMounts:
