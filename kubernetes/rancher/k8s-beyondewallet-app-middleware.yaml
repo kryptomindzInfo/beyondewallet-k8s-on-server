@@ -19,6 +19,9 @@ spec:
         - name: beyondewallet-backend
           image: beyondewallet/app-middleware:3.0 # image we pushed
           imagePullPolicy: Always
+          env:
+            - name: QUEUE_CONN_URL
+              value: amqp://rabbitmq-clusterip
           # readinessProbe:
           #   httpGet:
           #     path:
