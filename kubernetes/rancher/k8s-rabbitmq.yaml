@@ -17,15 +17,18 @@ spec:
         app: rabbitmq
     spec:
       containers:
-        - name: postgres
+        - name: rabbitmq
           # Image used
           image: rabbitmq:3-management
           imagePullPolicy: IfNotPresent
           volumeMounts:
             - name: rabbitmq
-              mountPath: /var/data
+              mountPath: /var/lib/rabbitmq
           ports:
             - containerPort: 15672
+              name: manager
+            - containerPort: 5672
+              name: amqp
   volumeClaimTemplates:
     - metadata:
         name: rabbitmq
@@ -68,9 +71,13 @@ spec:
     app: rabbitmq
 
   ports:
-    - name: rabbitmq-nodeport
+    - name: rabbitmq-manager-nodeport
       port: 15672
       targetPort: 15672
       nodePort: 31672
+    - name: rabbitmq-amqp-nodeport
+      port: 5672
+      targetPort: 5672
+      nodePort: 30672
 
   type: NodePort
