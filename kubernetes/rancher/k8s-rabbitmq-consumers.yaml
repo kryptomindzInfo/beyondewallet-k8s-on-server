@@ -21,117 +21,117 @@ spec:
           imagePullPolicy: Always
           env:
             - name: CONNECTION_URL
-              value: amqp://guest:guest@rabbitmq-nodeport:30672
+              value: amqp://rabbitmq-clusterip
             - name: QUEUE_NAME
               value: FEE
-          volumeMounts:
-            - name: rabbitmq-consumer-pvc
-              mountPath: /var/queue/fee
+          # volumeMounts:
+          #   - name: rabbitmq-consumer-pvc
+          #     mountPath: /var/queue/fee
         - name: rabbitmq-consumer-infrapercent
           image: beyondewallet/rabbitmq-consumer:1.0 # image we pushed
           imagePullPolicy: Always
           env:
             - name: CONNECTION_URL
-              value: amqp://guest:guest@rabbitmq-nodeport:30672
+              value: amqp://rabbitmq-clusterip
             - name: QUEUE_NAME
               value: INFRAPERCENT
-          volumeMounts:
-            - name: rabbitmq-consumer-pvc
-              mountPath: /var/queue/infrapercent
+          # volumeMounts:
+          #   - name: rabbitmq-consumer-pvc
+          #     mountPath: /var/queue/infrapercent
         - name: rabbitmq-consumer-infrafixed
           image: beyondewallet/rabbitmq-consumer:1.0 # image we pushed
           imagePullPolicy: Always
           env:
             - name: CONNECTION_URL
-              value: amqp://guest:guest@rabbitmq-nodeport:30672
+              value: amqp://rabbitmq-clusterip
             - name: QUEUE_NAME
               value: INFRAFIXED
-          volumeMounts:
-            - name: rabbitmq-consumer-pvc
-              mountPath: /var/queue/infrafixed
+          # volumeMounts:
+          #   - name: rabbitmq-consumer-pvc
+          #     mountPath: /var/queue/infrafixed
         - name: rabbitmq-consumer-sendfee
           image: beyondewallet/rabbitmq-consumer:1.0 # image we pushed
           imagePullPolicy: Always
           env:
             - name: CONNECTION_URL
-              value: amqp://guest:guest@rabbitmq-nodeport:30672
+              value: amqp://rabbitmq-clusterip
             - name: QUEUE_NAME
               value: SENDFEE
-          volumeMounts:
-            - name: rabbitmq-consumer-pvc
-              mountPath: /var/queue/sendfee
+          # volumeMounts:
+          #   - name: rabbitmq-consumer-pvc
+          #     mountPath: /var/queue/sendfee
         - name: rabbitmq-consumer-claimfee
           image: beyondewallet/rabbitmq-consumer:1.0 # image we pushed
           imagePullPolicy: Always
           env:
             - name: CONNECTION_URL
-              value: amqp://guest:guest@rabbitmq-nodeport:30672
+              value: amqp://rabbitmq-clusterip
             - name: QUEUE_NAME
               value: CLAIMFEE
-          volumeMounts:
-            - name: rabbitmq-consumer-pvc
-              mountPath: /var/queue/claimfee
+          # volumeMounts:
+          #   - name: rabbitmq-consumer-pvc
+          #     mountPath: /var/queue/claimfee
         - name: rabbitmq-consumer-bankmaster
           image: beyondewallet/rabbitmq-consumer:1.0 # image we pushed
           imagePullPolicy: Always
           env:
             - name: CONNECTION_URL
-              value: amqp://guest:guest@rabbitmq-nodeport:30672
+              value: amqp://rabbitmq-clusterip
             - name: QUEUE_NAME
               value: BANKMASTER
-          volumeMounts:
-            - name: rabbitmq-consumer-pvc
-              mountPath: /var/queue/bankmaster
+          # volumeMounts:
+          #   - name: rabbitmq-consumer-pvc
+          #     mountPath: /var/queue/bankmaster
         - name: rabbitmq-consumer-inframaster
           image: beyondewallet/rabbitmq-consumer:1.0 # image we pushed
           imagePullPolicy: Always
           env:
             - name: CONNECTION_URL
-              value: amqp://guest:guest@rabbitmq-nodeport:30672
+              value: amqp://rabbitmq-clusterip
             - name: QUEUE_NAME
               value: INFRAMASTER
-          volumeMounts:
-            - name: rabbitmq-consumer-pvc
-              mountPath: /var/queue/inframaster
+          # volumeMounts:
+          #   - name: rabbitmq-consumer-pvc
+          #     mountPath: /var/queue/inframaster
         - name: rabbitmq-consumer-sendmaster
           image: beyondewallet/rabbitmq-consumer:1.0 # image we pushed
           imagePullPolicy: Always
           env:
             - name: CONNECTION_URL
-              value: amqp://guest:guest@rabbitmq-nodeport:30672
+              value: amqp://rabbitmq-clusterip
             - name: QUEUE_NAME
               value: SENDMASTER
-          volumeMounts:
-            - name: rabbitmq-consumer-pvc
-              mountPath: /var/queue/sendmaster
+          # volumeMounts:
+          #   - name: rabbitmq-consumer-pvc
+          #     mountPath: /var/queue/sendmaster
         - name: rabbitmq-consumer-claimmaster
           image: beyondewallet/rabbitmq-consumer:1.0 # image we pushed
           imagePullPolicy: Always
           env:
             - name: CONNECTION_URL
-              value: amqp://guest:guest@rabbitmq-nodeport:30672
+              value: amqp://rabbitmq-clusterip
             - name: QUEUE_NAME
               value: CLAIMMASTER
-          volumeMounts:
-            - name: rabbitmq-consumer-pvc
-              mountPath: /var/queue/claimmaster
+          # volumeMounts:
+          #   - name: rabbitmq-consumer-pvc
+          #     mountPath: /var/queue/claimmaster
         - name: rabbitmq-consumer-general
           image: beyondewallet/rabbitmq-consumer:1.0 # image we pushed
           imagePullPolicy: Always
           env:
             - name: CONNECTION_URL
-              value: amqp://guest:guest@rabbitmq-nodeport:30672
+              value: amqp://rabbitmq-clusterip
             - name: QUEUE_NAME
               value: GENERAL
-          volumeMounts:
-            - name: rabbitmq-consumer-pvc
-              mountPath: /var/queue/general
-  volumeClaimTemplates:
-    - metadata:
-        name: rabbitmq-consumer-pvc
-      spec:
-        accessModes: ["ReadWriteOnce"]
-        storageClassName: general
-        resources:
-          requests:
-            storage: 1Gi
+          # volumeMounts:
+          #   - name: rabbitmq-consumer-pvc
+          #     mountPath: /var/queue/general
+  # volumeClaimTemplates:
+  #   - metadata:
+  #       name: rabbitmq-consumer-pvc
+  #     spec:
+  #       accessModes: ["ReadWriteOnce"]
+  #       storageClassName: general
+  #       resources:
+  #         requests:
+  #           storage: 1Gi
