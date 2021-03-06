@@ -5,7 +5,9 @@ DIR=$1
 ./start-fabric-network.sh $DIR
 ############# peer1 ####################
 
-while [[ $(kubectl get pods siliconvalley-orderer-0 -o 'jsonpath={..status.conditions[?(@.type=="Ready")].status}') != "True" ]]; do echo "orderer pod" && sleep 3; done
+while [[ $(kubectl get pods siliconvalley-orderer{2..5}-0 -o 'jsonpath={..status.conditions[?(@.type=="Ready")].status}') != "True True True True" ]]; do echo "orderer pod" && sleep 3; done
+echo -e "\nSleeping for 15s for leader election process to complete...\n"
+sleep 15
 while [[ $(kubectl get pods siliconvalley-peer1-0 -o 'jsonpath={..status.conditions[?(@.type=="Ready")].status}') != "True" ]]; do echo "waiting for pod" && sleep 1; done
 
 kubectl exec -it siliconvalley-peer1-0 -c siliconvalley-peer1 -- /bin/bash -li -c ' \
