@@ -17,7 +17,7 @@ spec:
     spec: # pod spec
       containers:
         - name: beyondewallet-cust-frontend
-          image: beyondewallet/app-customer-frontend:2.0 # image we pushed
+          image: beyondewallet/app-customer-frontend:dev-test # image we pushed
           imagePullPolicy: Always
           ports:
             - containerPort: 80
