@@ -19,9 +19,9 @@ peer channel join -b /var/hyperledger/config/${CC_CHANNEL_ID}.block -o $ORDERER_
 echo "List of all channels on peer"  && \
 peer channel list  && \
 peer channel update -f /var/hyperledger/config/siliconvalley-peer-update.tx -c $CC_CHANNEL_ID -o $ORDERER_ADDRESS  --tls --cafile $ORDERER_CA && \
-peer chaincode install  -n $CC_NAME -p $CC_PATH -v $CC_VERSION && \
+peer chaincode install  -n $CC_NAME -p $CC_PATH -v 1.3 && \
 peer chaincode list --installed -C $CC_CHANNEL_ID && \
-peer chaincode instantiate -o siliconvalley-orderer-clusterip:30750 -C $CC_CHANNEL_ID -n $CC_NAME  -v $CC_VERSION -c "{\"Args\":[]}" --tls --cafile $ORDERER_CA'
+peer chaincode instantiate -o siliconvalley-orderer-clusterip:30750 -C $CC_CHANNEL_ID -n $CC_NAME  -v 1.3 -c "{\"Args\":[]}" --tls --cafile $ORDERER_CA'
 
 
 ############### peer2 ####################
@@ -33,7 +33,7 @@ while ! curl -s -o /dev/null -I -L -w "\n%{http_code}\n" --output - http://local
 peer channel join -b /var/hyperledger/config/${CC_CHANNEL_ID}.block -o $ORDERER_ADDRESS && \
 echo "List of all channels on peer" && \
 peer channel list && \
-peer chaincode install -n $CC_NAME -p $CC_PATH -v $CC_VERSION && \
+peer chaincode install -n $CC_NAME -p $CC_PATH -v 1.3 && \
 peer chaincode list --installed -C $CC_CHANNEL_ID'
 
 ############### restart explorer,prometheus and grafana ###############

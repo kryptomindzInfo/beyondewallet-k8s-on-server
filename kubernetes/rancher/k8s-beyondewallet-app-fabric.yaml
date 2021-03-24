@@ -24,7 +24,7 @@ spec:
               "-c",
               "node enrollAdmin.js && node registerUser.js && node server.js",
             ]
-          imagePullPolicy: Always
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8000
           volumeMounts:
@@ -97,11 +97,11 @@ spec:
     app: beyondewallet-app
 
   ports:
-    # - name: beyondewallet-app-nodeport
-    #   port: 8000
-    #   targetPort: 8000
-    #   nodePort: 30800
-    # ## not needed now, uncomment if needed
+    - name: beyondewallet-app-nodeport
+      port: 8000
+      targetPort: 8000
+      nodePort: 30800
+    ## not needed now, uncomment if needed
     # - name: beyondewallet-ipfs-api-nodeport
     #   port: 5001
     #   targetPort: 5001

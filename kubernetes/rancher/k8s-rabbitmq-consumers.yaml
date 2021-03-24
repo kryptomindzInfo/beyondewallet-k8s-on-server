@@ -16,14 +16,14 @@ spec:
         app: rabbitmq-consumer
     spec: # pod spec
       containers:
-        - name: rabbitmq-consumer-fee
+        - name: rabbitmq-consumer-revert
           image: beyondewallet/rabbitmq-consumer:dev-test # image we pushed
           imagePullPolicy: Always
           env:
             - name: QUEUE_CONN_URL
               value: amqp://rabbitmq-clusterip
             - name: QUEUE_NAME
-              value: FEE
+              value: REVERT
           # volumeMounts:
           #   - name: rabbitmq-consumer-pvc
           #     mountPath: /var/queue/fee
@@ -115,14 +115,14 @@ spec:
           # volumeMounts:
           #   - name: rabbitmq-consumer-pvc
           #     mountPath: /var/queue/claimmaster
-        - name: rabbitmq-consumer-general
+        - name: rabbitmq-consumer-partnershare
           image: beyondewallet/rabbitmq-consumer:dev-test # image we pushed
           imagePullPolicy: IfNotPresent
           env:
             - name: QUEUE_CONN_URL
               value: amqp://rabbitmq-clusterip
             - name: QUEUE_NAME
-              value: GENERAL
+              value: PARTNERSHARE
           # volumeMounts:
           #   - name: rabbitmq-consumer-pvc
           #     mountPath: /var/queue/general
@@ -134,4 +134,5 @@ spec:
   #       storageClassName: general
   #       resources:
   #         requests:
-  #           storage: 1Gi
+  #   
+  #storage: 1Gi
