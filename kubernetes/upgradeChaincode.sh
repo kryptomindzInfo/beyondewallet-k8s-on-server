@@ -1,7 +1,11 @@
+echo "Below version is currently installed:"
+kubectl exec -it siliconvalley-peer1-0 -c siliconvalley-peer1 -- bash -c  "CORE_PEER_MSPCONFIGPATH=/var/hyperledger/users/Admin@siliconvalley.com/msp peer chaincode list --installed"
+echo "Below version is currently instantiated:"
+kubectl exec -it siliconvalley-peer1-0 -c siliconvalley-peer1 -- bash -c  "CORE_PEER_MSPCONFIGPATH=/var/hyperledger/users/Admin@siliconvalley.com/msp peer chaincode list --instantiated -C ewalletchannel"
 echo "Enter the version:"
 read VER
 
-git submodule update --init --recursive --remote ../fabric-network/ewallet-cc/
+# git submodule update --init --recursive --remote ../fabric-network/ewallet-cc/
 kubectl cp ../fabric-network/ewallet-cc/ewallet.go siliconvalley-peer1-0:/opt/gopath/src/github.com/src/ewallet-cc -c siliconvalley-peer1
 kubectl cp ../fabric-network/ewallet-cc/ewallet.go siliconvalley-peer2-0:/opt/gopath/src/github.com/src/ewallet-cc -c siliconvalley-peer2
 
