@@ -16,6 +16,22 @@ spec:
         app: rabbitmq-consumer
     spec: # pod spec
       containers:
+        - name: rabbitmq-consumer-interbankpercent
+          image: beyondewallet/rabbitmq-consumer:dev-test # image we pushed
+          imagePullPolicy: Always
+          env:
+          - name: QUEUE_CONN_URL
+            value: amqp://rabbitmq-clusterip
+          - name: QUEUE_NAME
+            value: INTERBANKPERCENT
+        - name: rabbitmq-consumer-interbankfixed
+          image: beyondewallet/rabbitmq-consumer:dev-test # image we pushed
+          imagePullPolicy: Always
+          env:
+          - name: QUEUE_CONN_URL
+            value: amqp://rabbitmq-clusterip
+          - name: QUEUE_NAME
+            value: INTERBANKFIXED
         - name: rabbitmq-consumer-revert
           image: beyondewallet/rabbitmq-consumer:dev-test # image we pushed
           imagePullPolicy: Always
