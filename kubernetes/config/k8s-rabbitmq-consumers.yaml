@@ -17,7 +17,7 @@ spec:
     spec: # pod spec
       containers:
         - name: rabbitmq-consumer-revert
-          image: beyondewallet/rabbitmq-consumer:1.0 # image we pushed
+          image: beyondewallet/rabbitmq-consumer:demo2022 # image we pushed
           imagePullPolicy: Always
           env:
             - name: QUEUE_CONN_URL
@@ -28,7 +28,7 @@ spec:
           #   - name: rabbitmq-consumer-pvc
           #     mountPath: /var/queue/fee
         - name: rabbitmq-consumer-infrapercent
-          image: beyondewallet/rabbitmq-consumer:1.0 # image we pushed
+          image: beyondewallet/rabbitmq-consumer:demo2022 # image we pushed
           imagePullPolicy: Always
           env:
             - name: QUEUE_CONN_URL
@@ -39,7 +39,7 @@ spec:
           #   - name: rabbitmq-consumer-pvc
           #     mountPath: /var/queue/infrapercent
         - name: rabbitmq-consumer-infrafixed
-          image: beyondewallet/rabbitmq-consumer:1.0 # image we pushed
+          image: beyondewallet/rabbitmq-consumer:demo2022 # image we pushed
           imagePullPolicy: Always
           env:
             - name: QUEUE_CONN_URL
@@ -50,7 +50,7 @@ spec:
           #   - name: rabbitmq-consumer-pvc
           #     mountPath: /var/queue/infrafixed
         - name: rabbitmq-consumer-sendfee
-          image: beyondewallet/rabbitmq-consumer:1.0 # image we pushed
+          image: beyondewallet/rabbitmq-consumer:demo2022 # image we pushed
           imagePullPolicy: Always
           env:
             - name: QUEUE_CONN_URL
@@ -61,7 +61,7 @@ spec:
           #   - name: rabbitmq-consumer-pvc
           #     mountPath: /var/queue/sendfee
         - name: rabbitmq-consumer-claimfee
-          image: beyondewallet/rabbitmq-consumer:1.0 # image we pushed
+          image: beyondewallet/rabbitmq-consumer:demo2022 # image we pushed
           imagePullPolicy: Always
           env:
             - name: QUEUE_CONN_URL
@@ -72,7 +72,7 @@ spec:
           #   - name: rabbitmq-consumer-pvc
           #     mountPath: /var/queue/claimfee
         - name: rabbitmq-consumer-bankmaster
-          image: beyondewallet/rabbitmq-consumer:1.0 # image we pushed
+          image: beyondewallet/rabbitmq-consumer:demo2022 # image we pushed
           imagePullPolicy: Always
           env:
             - name: QUEUE_CONN_URL
@@ -83,7 +83,7 @@ spec:
           #   - name: rabbitmq-consumer-pvc
           #     mountPath: /var/queue/bankmaster
         - name: rabbitmq-consumer-inframaster
-          image: beyondewallet/rabbitmq-consumer:1.0 # image we pushed
+          image: beyondewallet/rabbitmq-consumer:demo2022 # image we pushed
           imagePullPolicy: Always
           env:
             - name: QUEUE_CONN_URL
@@ -94,7 +94,7 @@ spec:
           #   - name: rabbitmq-consumer-pvc
           #     mountPath: /var/queue/inframaster
         - name: rabbitmq-consumer-sendmaster
-          image: beyondewallet/rabbitmq-consumer:1.0 # image we pushed
+          image: beyondewallet/rabbitmq-consumer:demo2022 # image we pushed
           imagePullPolicy: Always
           env:
             - name: QUEUE_CONN_URL
@@ -105,7 +105,7 @@ spec:
           #   - name: rabbitmq-consumer-pvc
           #     mountPath: /var/queue/sendmaster
         - name: rabbitmq-consumer-claimmaster
-          image: beyondewallet/rabbitmq-consumer:1.0 # image we pushed
+          image: beyondewallet/rabbitmq-consumer:demo2022 # image we pushed
           imagePullPolicy: Always
           env:
             - name: QUEUE_CONN_URL
@@ -116,7 +116,7 @@ spec:
           #   - name: rabbitmq-consumer-pvc
           #     mountPath: /var/queue/claimmaster
         - name: rabbitmq-consumer-partnershare
-          image: beyondewallet/rabbitmq-consumer:1.0 # image we pushed
+          image: beyondewallet/rabbitmq-consumer:demo2022 # image we pushed
           imagePullPolicy: Always
           env:
             - name: QUEUE_CONN_URL
