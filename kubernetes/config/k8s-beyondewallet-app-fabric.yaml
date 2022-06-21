@@ -17,7 +17,7 @@ spec:
     spec: # pod spec
       containers:
         - name: beyondewallet-app
-          image: beyondewallet/app-fabric:dev-test # image we pushed
+          image: beyondewallet/app-fabric:demo2022 # image we pushed
           command:
             [
               "sh",

@@ -1,4 +1,6 @@
 # Mushi - Explorer
+# This script must run if crypto-config is changed
+git submodule update --init --recursive --remote ./app/fabric/
 cp -r ./fabric-network/config/crypto-config ./fabric-network/explorer
 cp -r ./fabric-network/config/crypto-config ./app/fabric/config
 
@@ -6,8 +8,7 @@ var=$(ls ./fabric-network/config/crypto-config/peerOrganizations/siliconvalley.c
 echo $var
 name=$(find ./fabric-network/config/crypto-config/peerOrganizations/siliconvalley.com/ca/ -name "*_sk" -exec basename \{} .po \;)
 file="\/var\/hyperledger\/fabric-ca-server-config\/"$name
-sed -e "37s/.*/            value: $file/" -i ./kubernetes/minikube/k8s-siliconvalley-ca.yaml
-sed -e "37s/.*/            value: $file/" -i ./kubernetes/gcp/k8s-siliconvalley-ca.yaml
+sed -e "37s/.*/            value: $file/" -i ./kubernetes/config/k8s-siliconvalley-ca.yaml
 sed -e "13s/.*/COPY .\/config\/crypto-config\/peerOrganizations\/siliconvalley.com\/ca\/$name \/var\/hyperledger\/fabric-ca-server-config\//" -i ./fabric-network/docker/ca/Dockerfile
 sed -e "14s/.*/COPY .\/config\/crypto-config\/peerOrganizations\/siliconvalley.com\/ca\/$name \/var\/hyperledger\/config\//" -i ./fabric-network/docker/ca/Dockerfile
 

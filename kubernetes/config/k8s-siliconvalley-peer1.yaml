@@ -19,7 +19,7 @@ spec:
       containers:
         - name: siliconvalley-peer1
           # Image used
-          image: beyondewallet/k8s-hlf-siliconvalley-peer1:dev-test
+          image: beyondewallet/k8s-hlf-siliconvalley-peer1:demo2022
           # Uncomment the following during development/testing of the image
           imagePullPolicy: IfNotPresent
           env:
