@@ -1,0 +1,112 @@
+# YAML for launching the orderer
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: siliconvalley-orderer2
+  labels:
+    app: siliconvalley-orderer2
+spec:
+  serviceName: orderer2
+  # Single instance of the Orderer Pod is needed
+  replicas: 1
+  selector:
+    matchLabels:
+      app: siliconvalley-orderer2
+  template:
+    metadata:
+      labels:
+        app: siliconvalley-orderer2
+    spec:
+      containers:
+        - name: siliconvalley-orderer2
+
+          # Image used
+          image: beyondewallet/k8s-hlf-siliconvalley-orderer2:1.0
+          # Uncomment the following during development/testing of the image
+          imagePullPolicy: IfNotPresent
+          env:
+            # Points to the orderer.yaml
+            - name: FABRIC_CFG_PATH
+              value: /var/hyperledger/config
+            # Level of logging
+            - name: FABRIC_LOGGING_SPEC
+              value: INFO
+            - name: ORDERER_GENERAL_LOCALMSPID
+              value: OrdererMSP
+            - name: ORDERER_GENERAL_LISTENADDRESS
+              value: "0.0.0.0"
+            - name: ORDERER_GENERAL_LISTENPORT
+              value: "30750"
+            - name: ORDERER_GENERAL_LOCALMSPDIR
+              value: /var/hyperledger/orderer.siliconvalley.com/msp
+            - name: ORDERER_GENERAL_TLS_ENABLED
+              value: "true"
+            - name: ORDERER_GENERAL_TLS_PRIVATEKEY
+              value: /var/hyperledger/orderer.siliconvalley.com/tls/server.key
+            - name: ORDERER_GENERAL_TLS_CERTIFICATE
+              value: /var/hyperledger/orderer.siliconvalley.com/tls/server.crt
+            - name: ORDERER_GENERAL_TLS_ROOTCAS
+              value: /var/hyperledger/orderer.siliconvalley.com/tls/ca.crt
+            - name: ORDERER_GENERAL_CLUSTER_CLIENTCERTIFICATE
+              value: /var/hyperledger/orderer.siliconvalley.com/tls/server.crt
+            - name: ORDERER_GENERAL_CLUSTER_CLIENTPRIVATEKEY
+              value: /var/hyperledger/orderer.siliconvalley.com/tls/server.key
+          ports:
+            - containerPort: 30750
+          volumeMounts:
+            # This is pointing to the PVC
+            - name: orderer2-ledger
+              mountPath: /var/ledger
+  volumeClaimTemplates:
+    - metadata:
+        name: orderer2-ledger
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        storageClassName: do-block-storage
+        resources:
+          requests:
+            storage: 1Gi
+
+---
+# Expose the port 7050 as ClusterIP
+apiVersion: v1
+kind: Service
+metadata:
+  name: siliconvalley-orderer2-clusterip
+
+spec:
+  # This defines which pods are going to be represented by this Service
+  # The service becomes a network endpoint for either other services
+  # or maybe external users to connect to (eg browser)
+  selector:
+    app: siliconvalley-orderer2
+
+  ports:
+    - name: siliconvalley-orderer2-clusterip
+      port: 30750
+
+  type: ClusterIP
+
+---
+# Expose the port 30750 as node port - NEEDED if you
+# are interested in connecting to the Pods from the Host
+# machine - keep in mind you would need the IP for the node
+# port service
+apiVersion: v1
+kind: Service
+metadata:
+  name: siliconvalley-orderer2-nodeport
+
+spec:
+  # This defines which pods are going to be represented by this Service
+  # The service becomes a network endpoint for either other services
+  # or maybe external users to connect to (eg browser)
+  selector:
+    app: siliconvalley-orderer2
+
+  ports:
+    - name: siliconvalley-orderer2-nodeport
+      port: 30750
+      nodePort: 30850
+
+  type: NodePort

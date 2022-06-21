@@ -1,0 +1,71 @@
+# YAML for launching the orderer
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: grafana
+  labels:
+    app: grafana
+spec:
+  serviceName: grafana
+  replicas: 1
+  selector:
+    matchLabels:
+      app: grafana
+  template:
+    metadata:
+      labels:
+        app: grafana
+    spec:
+      containers:
+        - name: postgres
+          # Image used
+          image: beyondewallet/grafana:1.0
+          imagePullPolicy: IfNotPresent
+          volumeMounts:
+            - name: grafana
+              mountPath: /var/ledger
+          ports:
+            - containerPort: 3000
+  volumeClaimTemplates:
+    - metadata:
+        name: grafana
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        storageClassName: do-block-storage
+        resources:
+          requests:
+            storage: 1Gi
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: grafana-clusterip
+
+spec:
+  selector:
+    app: grafana
+
+  ports:
+    - name: grafana-clusterip
+      port: 3000
+
+  type: ClusterIP
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: grafana-nodeport
+
+spec:
+  selector:
+    app: grafana
+
+  ports:
+    - name: grafana-nodeport
+      port: 3000
+      targetPort: 3000
+      nodePort: 30300
+
+  type: NodePort
