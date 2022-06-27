@@ -1,0 +1,13 @@
+{
+	"dbHost": "beyondewallet-mongodb-clusterip",
+	"dbPort": "27017",
+	"dbName": "ewallet",
+	"mainFee": 10,
+	"defaultFee": 0,
+	"defaultAmt": 0,
+	"blockChainIP": "beyondewallet-app-clusterip",
+	"ipfsIP": "beyondewallet-ipfs-clusterip",
+	"mainIP": "$SERVER_IP:31080",
+	"uploadPath": "/var/app/uploads/",
+	"rabbitmqIP": "rabbitmq-clusterip"
+}

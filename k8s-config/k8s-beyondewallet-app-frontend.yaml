@@ -1,41 +1,38 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: beyondewallet-ipfs
+  name: beyondewallet-frontend
   labels:
-    app: beyondewallet-ipfs
+    app: beyondewallet-frontend
 spec:
-  serviceName: beyondewallet-ipfs
+  serviceName: beyondewallet-frontend
   replicas: 1
   selector:
     matchLabels:
-      app: beyondewallet-ipfs
+      app: beyondewallet-frontend
   template:
     metadata:
       labels: # labels to select/identify the deployment
-        app: beyondewallet-ipfs
+        app: beyondewallet-frontend
     spec: # pod spec
       containers:
-        - name: beyondewallet-ipfs
-          image: kmindz/go-ipfs
-          # imagePullPolicy: IfNotPresent
+        - name: beyondewallet-frontend
+          image: beyondewallet/app-frontend:demo2022 # image we pushed
+          imagePullPolicy: Always
           ports:
-            - containerPort: 4001 # ipfs swarm
-            #       - containerPort: 4002 # udp swarm
-            - containerPort: 5001 # expose if needed/wanted
-            - containerPort: 8080 # exposes if needed/wanted
+            - containerPort: 80
           volumeMounts:
-            - name: beyondewallet-ipfs-pvc
-              mountPath: /var/ipfs
+            - name: beyondewallet-frontend-pvc
+              mountPath: /var/app
   volumeClaimTemplates:
     - metadata:
-        name: beyondewallet-ipfs-pvc
+        name: beyondewallet-frontend-pvc
       spec:
         accessModes: ["ReadWriteOnce"]
         storageClassName: do-block-storage
         resources:
           requests:
-            storage: 1Gi
+            storage: 2Gi
 
 ---
 # Expose the port 30751 as node port -  NEEDED if you
@@ -45,22 +42,18 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: beyondewallet-ipfs-clusterip
+  name: beyondewallet-frontend-clusterip
 
 spec:
   # This defines which pods are going to be represented by this Service
   # The service becomes a network endpoint for either other services
   # or maybe external users to connect to (eg browser)
   selector:
-    app: beyondewallet-ipfs
+    app: beyondewallet-frontend
 
   ports:
-    # - name: beyondewallet-ipfs-clusterip
-    #   port: 4001
-    - name: beyondewallet-ipfs-ipfs-api-clusterip
-      port: 5001
-    - name: beyondewallet-ipfs-ipfs-gateway-clusterip
-      port: 8080
+    - name: beyondewallet-frontend-clusterip
+      port: 80
 
   type: ClusterIP
 
@@ -72,23 +65,19 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: beyondewallet-ipfs-nodeport
+  name: beyondewallet-frontend-nodeport
 
 spec:
   # This defines which pods are going to be represented by this Service
   # The service becomes a network endpoint for either other services
   # or maybe external users to connect to (eg browser)
   selector:
-    app: beyondewallet-ipfs
+    app: beyondewallet-frontend
 
   ports:
-    - name: beyondewallet-ipfs-api-nodeport
-      port: 5001
-      targetPort: 5001
-      nodePort: 30501
-    - name: beyondewallet-ipfs-gateway-nodeport
-      port: 8080
-      targetPort: 8080
-      nodePort: 30880
+    - name: beyondewallet-frontend-nodeport
+      port: 4000
+      targetPort: 80
+      nodePort: 31080
 
   type: NodePort

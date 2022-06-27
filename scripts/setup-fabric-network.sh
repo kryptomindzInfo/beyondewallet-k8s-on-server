@@ -1,15 +1,19 @@
-DIR=$1
+DIR=k8s-config
 
 # eval $(minikube -p minikube docker-env)
-./teardown-network.sh $DIR
-./start-fabric-network.sh $DIR
-############# peer1 ####################
+echo "Start fabric network"
+./restart-fabric-network.sh $DIR
 
+############# peer1 ####################
+echo "Wait for all the orderes(0,2..5) to start"
 while [[ $(kubectl get pods siliconvalley-orderer{2..5}-0 -o 'jsonpath={..status.conditions[?(@.type=="Ready")].status}') != "True True True True" ]]; do echo "orderer pod" && sleep 3; done
 echo -e "\nSleeping for 15s for leader election process to complete...\n"
 sleep 15
+
+echo "Wait for peer1 to start"
 while [[ $(kubectl get pods siliconvalley-peer1-0 -o 'jsonpath={..status.conditions[?(@.type=="Ready")].status}') != "True" ]]; do echo "waiting for pod" && sleep 1; done
 
+echo "Peer1: Create channel, join channel, install and instantaite chaincode"
 kubectl exec -it siliconvalley-peer1-0 -c siliconvalley-peer1 -- /bin/bash -li -c ' \
 echo ${CC_CHANNEL_ID} && \
 peer channel create -c $CC_CHANNEL_ID -f /var/hyperledger/config/${CC_CHANNEL_ID}.tx --outputBlock /var/hyperledger/config/${CC_CHANNEL_ID}.block -o $ORDERER_ADDRESS --tls --cafile $ORDERER_CA && \
@@ -25,7 +29,10 @@ peer chaincode instantiate -o siliconvalley-orderer-clusterip:30750 -C $CC_CHANN
 
 
 ############### peer2 ####################
+echo "Wait for peer2 to start"
 while [[ $(kubectl get pods siliconvalley-peer2-0 -o 'jsonpath={..status.conditions[?(@.type=="Ready")].status}') != "True" ]]; do echo "waiting for pod" && sleep 1; done
+
+echo "Peer2: fetch channel, join channel and install chaincode"
 kubectl exec -it siliconvalley-peer2-0 -c siliconvalley-peer2 -- /bin/bash -li -c '
 peer channel fetch 0 /var/hyperledger/config/${CC_CHANNEL_ID}.block -o $ORDERER_ADDRESS -c $CC_CHANNEL_ID  --tls --cafile $ORDERER_CA && \
 apt-get install curl -y && \
@@ -37,6 +44,9 @@ peer chaincode install -n $CC_NAME -p $CC_PATH -v $CC_VERSION && \
 peer chaincode list --installed -C $CC_CHANNEL_ID'
 
 ############### restart explorer,prometheus and grafana ###############
-./teardown-exp-prom-graf.sh $DIR
-./start-explorer.sh $DIR
-./start-prom-graf.sh $DIR
+
+echo "Start explorer"
+./restart-explorer.sh $DIR
+
+echo "Start Prometheus and Grafana"
+./restart-prom-graf.sh $DIR

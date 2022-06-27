@@ -1,18 +1,28 @@
 [submodule "app/fabric"]
 	path = app/fabric
-	url = https://github.com/hlf-dev-zm/ewallet-fabric-app.git
+	url = https://github.com/beyondewallet/ewallet-fabric-app.git
+	branch = demo2022
 [submodule "fabric-network/ewallet-cc"]
 	path = fabric-network/ewallet-cc
-	url = https://github.com/hlf-dev-zm/ewallet-cc.git
+	url = https://github.com/beyondewallet/ewallet-chaincode.git
+	branch = master
 [submodule "app/frontend"]
 	path = app/frontend
 	url = https://github.com/beyondewallet/frontend.git
+	branch = demo2022
 [submodule "app/middleware"]
 	path = app/middleware
 	url = https://github.com/beyondewallet/backend-user-services.git
+	branch = demo2022
 [submodule "app/customer-frontend"]
 	path = app/customer-frontend
 	url = https://github.com/beyondewallet/customer-frontend.git
+	branch = demo2022
 [submodule "app/merchant-frontend"]
 	path = app/merchant-frontend
 	url = https://github.com/beyondewallet/merchant-frontend.git
+	branch = development
+[submodule "app/partner"]
+	path = app/partner
+	url = https://github.com/beyondewallet/Partner.git
+	branch = master
