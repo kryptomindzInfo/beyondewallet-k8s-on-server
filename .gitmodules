@@ -25,4 +25,4 @@
 [submodule "app/partner"]
 	path = app/partner
 	url = https://github.com/beyondewallet/Partner.git
-	branch = master
+	branch = demo2022

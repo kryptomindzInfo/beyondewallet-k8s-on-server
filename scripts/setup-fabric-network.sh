@@ -25,7 +25,6 @@ peer channel create -c $CC_CHANNEL_ID -f /var/hyperledger/config/${CC_CHANNEL_ID
 apt-get install curl -y && \
 while ! curl -s -o /dev/null -I -L -w "\n%{http_code}\n" --output - http://localhost:30751 -v; do echo "$(date) - Waiting for peer to come online..."; sleep 1; done && \
 peer channel join -b /var/hyperledger/config/${CC_CHANNEL_ID}.block -o $ORDERER_ADDRESS  && \
-echo "List of all channels on peer"  && \
 peer channel list  && \
 peer channel update -f /var/hyperledger/config/siliconvalley-peer-update.tx -c $CC_CHANNEL_ID -o $ORDERER_ADDRESS  --tls --cafile $ORDERER_CA && \
 peer chaincode install  -n $CC_NAME -p $CC_PATH -v $CC_VERSION && \
